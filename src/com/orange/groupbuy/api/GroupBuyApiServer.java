@@ -3,6 +3,7 @@ package com.orange.groupbuy.api;
 import com.orange.common.api.CommonApiServer;
 import com.orange.common.api.service.ServiceHandler;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.groupbuy.api.service.GroupBuyServiceFactory;
 
 public class GroupBuyApiServer extends CommonApiServer {
 	
@@ -13,6 +14,7 @@ public class GroupBuyApiServer extends CommonApiServer {
 	public static final String MONGO_DB_NAME = "groupbuy";
 	public static final String MONGO_USER = "";
 	public static final String MONGO_PASSWORD = "";
+	public static final GroupBuyServiceFactory serviceFactory = new GroupBuyServiceFactory();
 	
 	private static final MongoDBClient mongoClient = new MongoDBClient(MONGO_SERVER, MONGO_DB_NAME, MONGO_USER, MONGO_PASSWORD);	
 
@@ -28,7 +30,7 @@ public class GroupBuyApiServer extends CommonApiServer {
 
 	@Override
 	public ServiceHandler getServiceHandler() {
-		return ServiceHandler.getServiceHandler(mongoClient);
+		return ServiceHandler.getServiceHandler(mongoClient, serviceFactory);
 	}
 
 	@Override
