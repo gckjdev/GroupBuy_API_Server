@@ -1,0 +1,42 @@
+
+
+RegisterUser
+
+	email
+	address
+	city
+	gps[]
+	keywords[]
+	appId
+		
+Login
+
+	email
+	address
+	appId
+
+	Return user informaiton with subscription information	
+	
+
+Subscribe
+
+	appId
+	userId
+	gps[]
+	keywords[]
+	
+GetUser
+	
+	userId
+		
+	Return user informaiton with subscription information	
+	
+FindProductByLocation
+
+	userId
+	appId
+	gps
+
+	Return product
+
+		

@@ -12,7 +12,7 @@ import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.User;
 import com.orange.groupbuy.manager.UserManager;
 
-public class GroupBuyDeviceLoginService extends CommonGroupBuyService {
+public class DeviceLoginService extends CommonGroupBuyService {
 
 	String 	deviceId;
 	String 	appId;

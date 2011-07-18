@@ -11,7 +11,7 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERDEVICE))
 			return new RegisterDeviceService();
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DEVICELOGIN))
-			return new GroupBuyDeviceLoginService();
+			return new DeviceLoginService();
 		else
 			return null;
 	}
