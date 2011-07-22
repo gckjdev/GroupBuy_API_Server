@@ -1,69 +1,69 @@
 
-FindAllProductsWithPrice ��������Ź���Ʒ�����ռ۸�����ӵ͵��߷���
+FindAllProductsWithPrice 获得所有团购产品，按照价格排序从低到高返回
 
 Input
 
-	appId				- �����ĸ�Ӧ��
-	maxCount			- ÿ�����෵�ص������Ŀ
-	startOffset			- �ӵڼ�����¼��ʼ
+	appId				- 来自哪个应用
+	maxCount			- 每个分类返回的最多条目
+	startOffset			- 从第几条记录开始
 	
 Output
 
-	{ [��Ʒ1,��Ʒ2,...] }
+	{ [产品1,产品2,...] }
 
 
-FindAllProductsWithRebate ��������Ź���Ʒ�������ۿ�����ӵ͵��߷���
+FindAllProductsWithRebate 获得所有团购产品，按照折扣排序从低到高返回
 
 Input
 
-	appId				- �����ĸ�Ӧ��
-	maxCount			- ���ص������Ŀ
-	startOffset			- �ӵڼ�����¼��ʼ
+	appId				- 来自哪个应用
+	maxCount			- 返回的最多条目
+	startOffset			- 从第几条记录开始
 	
 Output
 
-	{ [��Ʒ1,��Ʒ2,...] }
+	{ [产品1,产品2,...] }
 
-FindAllProductsWithLocation ��������Ź���Ʒ������λ��Զ������ӽ���Զ����
+FindAllProductsWithLocation 获得所有团购产品，按照位置远近排序从近到远返回
 
 Input
 
-	appId				- �����ĸ�Ӧ��
-	maxCount			- ���ص������Ŀ
-	startOffset			- �ӵڼ�����¼��ʼ
+	appId				- 来自哪个应用
+	maxCount			- 返回的最多条目
+	startOffset			- 从第几条记录开始
 	longitude
 	latitude
 	
 Output
 
-	{ [��Ʒ1,��Ʒ2,...] }
+	{ [产品1,产品2,...] }
 
 
-FindAllProductsWithBought ��������Ź���Ʒ����������Զ������Ӹߵ��ͷ���
-
-Input
-
-	appId				- �����ĸ�Ӧ��
-	maxCount			- ���ص������Ŀ
-	startOffset			- �ӵڼ�����¼��ʼ
-	
-Output
-
-	{ [��Ʒ1,��Ʒ2,...] }
-
-
-
-FindAllProductsWithCategory ���շ�����鷵���Ź���Ʒ����Ʒ����ʱ�����򷵻�
+FindAllProductsWithBought 获得所有团购产品，按照销量远近排序从高到低返回
 
 Input
 
-	appId						- �����ĸ�Ӧ��
-	maxCountPerCategory			- ÿ�����෵�ص������Ŀ
-	beforeTimeStampPerCategory	- ÿ�����෵�ص�ʱ�����ʱ��������Ϊ0��ʾ��ǰ����
+	appId				- 来自哪个应用
+	maxCount			- 返回的最多条目
+	startOffset			- 从第几条记录开始
 	
 Output
 
-	{ ����1 : ����1�µ��Ź���Ʒ����, ����2 : ����2�µ��Ź���Ʒ����, ... }
+	{ [产品1,产品2,...] }
+
+
+
+FindAllProductsWithCategory 按照分类分组返回团购产品，产品按照时间排序返回
+
+Input
+
+	appId						- 来自哪个应用
+	maxCountPerCategory			- 每个分类返回的最多条目
+	beforeTimeStampPerCategory	- 每个分类返回的时间戳，时间整数，为0表示当前最新
+	
+Output
+
+	{ 分类1 : 分类1下的团购产品数组, 分类2 : 分类2下的团购产品数组, ... }
 	
 		 
 
