@@ -24,12 +24,17 @@ Subscribe
 	userId
 	gps[]
 	keywords[]
+	categories[]
+	gps=lat,long;lat,long;
+	keywords=netbuy;film
 	
 GetUser
 	
 	userId
 		
 	Return user informaiton with subscription information	
+	
+	
 	
 FindProductByLocation
 
