@@ -11,13 +11,19 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		if (method == null){
 			return null;
 		}
-		
 		if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERDEVICE))
 			return new RegisterDeviceService();
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DEVICELOGIN))
 			return new DeviceLoginService();
 		else if(method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATE_SUBSCRIPTION))
 			return new UpdateSubscriptionService();
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTWITHPRICE)) {
+			return new FindAllProductsWithPrice();
+		}else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTWITHREBATE)) {
+			return new FindAllProductsWithRebate();
+		}else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTWITHBOUGHT)) {
+			return new FindAllProductsWithBought();
+		}
 		else
 			return null;
 	}

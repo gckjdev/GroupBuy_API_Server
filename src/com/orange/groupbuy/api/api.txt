@@ -3,6 +3,7 @@ FindAllProductsWithPrice 获得所有团购产品，按照价格排序从低到�
 
 Input
 
+    city
 	appId				- 来自哪个应用
 	maxCount			- 每个分类返回的最多条目
 	startOffset			- 从第几条记录开始
@@ -16,6 +17,7 @@ FindAllProductsWithRebate 获得所有团购产品，按照折扣排序从低到
 
 Input
 
+    city
 	appId				- 来自哪个应用
 	maxCount			- 返回的最多条目
 	startOffset			- 从第几条记录开始
@@ -43,6 +45,7 @@ FindAllProductsWithBought 获得所有团购产品，按照销量远近排序从
 
 Input
 
+	city
 	appId				- 来自哪个应用
 	maxCount			- 返回的最多条目
 	startOffset			- 从第几条记录开始
