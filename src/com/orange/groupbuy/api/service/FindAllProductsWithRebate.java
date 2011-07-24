@@ -18,7 +18,7 @@ public class FindAllProductsWithRebate extends CommonGroupBuyService {
 	
 	@Override
 	public void handleData() {
-		List<Product> products = ProductManager.getAllProductWithRebate(mongoClient, city, true, startOffset, maxCount);
+		List<Product> products = ProductManager.getAllProductsWithRebate(mongoClient, city, true, startOffset, maxCount);
 		resultData = CommonServiceUtils.productListToJSONArray(products);
 
 	}

@@ -8,18 +8,28 @@ import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.manager.ProductManager;
+import com.orange.groupbuy.util.UrlUtil;
 
-public class FindAllProductsWithLocation extends CommonGroupBuyService {
+public class FindAllProductsWithCateGory extends CommonGroupBuyService {
+
+	String categories;
 	String appId;
 	String maxCount;
 	String startOffset;
-	String latitude;
-	String longitude;
+	String city;
 
 	@Override
 	public void handleData() {
-		List<Product> productList = ProductManager.getAllProductsWithLocation(mongoClient, latitude,
-				longitude, startOffset, maxCount);
+		List<String> categoryList = UrlUtil.parserUrlArray(categories);
+		if (categoryList == null || categoryList.size() < 1) {
+			log
+					.info("<FindAllProductsWithCategory>: category is null or illegal. categories="
+							+ categories + ", city=" + city);
+			resultCode = ErrorCode.ERROR_PARAMETER_CATEGORY_EMPTY;
+		}
+
+		List<Product> productList = ProductManager.getAllProductsWithCategory(
+				mongoClient, city, categoryList, startOffset, maxCount);
 		resultData = CommonServiceUtils.productListToJSONArray(productList);
 	}
 
@@ -31,9 +41,9 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 
 	@Override
 	public String toString() {
-		return "FindAllProductsWithLocation [appId=" + appId + ", latitude="
-				+ latitude + ", longitude=" + longitude + ", maxCount="
-				+ maxCount + ", startOffset=" + startOffset + "]";
+		return "FindAllProductsWithCateGory [appId=" + appId + ", categories="
+				+ categories + ", city=" + city + ", maxCount=" + maxCount
+				+ ", startOffset=" + startOffset + "]";
 	}
 
 	@Override
@@ -41,22 +51,18 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		maxCount = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
 		startOffset = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
-		latitude = request.getParameter(ServiceConstant.PARA_LANGUAGE);
-		longitude = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
+		city = request.getParameter(ServiceConstant.PARA_CITY);
+		categories = request.getParameter(ServiceConstant.PARA_CATEGORIES);
 
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
 		}
-		if (!check(latitude, ErrorCode.ERROR_PARAMETER_LANGUAGE_EMPTY,
-				ErrorCode.ERROR_PARAMETER_LANGUAGE_NULL)) {
+		if (!check(categories, ErrorCode.ERROR_PARAMETER_CATEGORY_EMPTY,
+				ErrorCode.ERROR_PARAMETER_CATEGORY_NULL)) {
 			return false;
 		}
-		if (!check(longitude, ErrorCode.ERROR_PARAMETER_LONGITUDE_EMPTY,
-				ErrorCode.ERROR_PARAMETER_LONGITUDE_NULL)) {
-			return false;
-		}
-
+		System.out.println(toString());
 		return true;
 	}
 

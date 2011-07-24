@@ -27,7 +27,7 @@ public class FindAllProductsWithPrice extends CommonGroupBuyService {
 
 	@Override
 	public void handleData() {
-		List<Product> products = ProductManager.getAllProductWithPrice(mongoClient, city, true, startOffset, maxCount);
+		List<Product> products = ProductManager.getAllProductsWithPrice(mongoClient, city, true, startOffset, maxCount);
 		resultData = CommonServiceUtils.productListToJSONArray(products);
 	}
 
