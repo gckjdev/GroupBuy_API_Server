@@ -26,6 +26,13 @@ public class FindAllProductsWithPrice extends CommonGroupBuyService {
 	}
 
 	@Override
+	public String toString() {
+		return "FindAllProductsWithPrice [appId=" + appId + ", city=" + city
+				+ ", maxCount=" + maxCount + ", startOffset=" + startOffset
+				+ "]";
+	}
+
+	@Override
 	public boolean needSecurityCheck() {
 		// TODO Auto-generated method stub
 		return false;

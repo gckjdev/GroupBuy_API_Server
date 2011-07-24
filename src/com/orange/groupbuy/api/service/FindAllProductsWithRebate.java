@@ -43,4 +43,11 @@ public class FindAllProductsWithRebate extends CommonGroupBuyService {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "FindAllProductsWithRebate [appId=" + appId + ", city=" + city
+				+ ", maxCount=" + maxCount + ", startOffset=" + startOffset
+				+ "]";
+	}
+
 }

@@ -23,6 +23,8 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 			return new FindAllProductsWithRebate();
 		}else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTWITHBOUGHT)) {
 			return new FindAllProductsWithBought();
+		}else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTWITHLOCATION)) {
+			return new FindAllProductsWithLocation();
 		}
 		else
 			return null;

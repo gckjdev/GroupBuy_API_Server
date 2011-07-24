@@ -40,7 +40,7 @@ public class GroupBuyApiServer extends CommonApiServer {
 	
 	@Override
 	public int getPort() {
-		return 8003;
+		return 8000;
 	}
 	
     public static void main(String[] args) throws Exception{

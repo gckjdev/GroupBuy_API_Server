@@ -1,11 +1,13 @@
 package com.orange.groupbuy.api.service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-import sun.print.resources.serviceui;
+import javax.servlet.http.HttpServletRequest;
 
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.manager.ProductManager;
 
 public class FindAllProductsWithLocation extends CommonGroupBuyService {
 	String appId;
@@ -13,12 +15,12 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 	String startOffset;
 	String latitude;
 	String longitude;
-	String radius;
 
 	@Override
 	public void handleData() {
-		// TODO Auto-generated method stub
-
+		List<Product> productList = ProductManager.getAllProductWithLocation(mongoClient, latitude,
+				longitude, startOffset, maxCount);
+		resultData = CommonServiceUtils.productListToJSONArray(productList);
 	}
 
 	@Override
@@ -28,13 +30,19 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 	}
 
 	@Override
+	public String toString() {
+		return "FindAllProductsWithLocation [appId=" + appId + ", latitude="
+				+ latitude + ", longitude=" + longitude + ", maxCount="
+				+ maxCount + ", startOffset=" + startOffset + "]";
+	}
+
+	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		maxCount = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
 		startOffset = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
 		latitude = request.getParameter(ServiceConstant.PARA_LANGUAGE);
 		longitude = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
-		radius = request.getParameter(ServiceConstant.PARA_RADIUS);
 
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
@@ -48,11 +56,7 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_LONGITUDE_NULL)) {
 			return false;
 		}
-		
-		if (!check(radius, ErrorCode.ERROR_PARAMETER_RADIUS_EMPTY,
-				ErrorCode.ERROR_PARAMETER_RADIUS_NULL)) {
-			return false;
-		}
+
 		return true;
 	}
 

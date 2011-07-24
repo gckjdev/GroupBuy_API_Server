@@ -23,6 +23,13 @@ public class FindAllProductsWithBought extends CommonGroupBuyService {
 	}
 
 	@Override
+	public String toString() {
+		return "FindAllProductsWithBought [appId=" + appId + ", city=" + city
+				+ ", maxCount=" + maxCount + ", startOffset=" + startOffset
+				+ "]";
+	}
+
+	@Override
 	public boolean needSecurityCheck() {
 		return false;
 	}
