@@ -24,6 +24,10 @@ public class CommonServiceUtils {
 	}
 	
 	public static JSONArray productListToJSONArray(List<Product> products){
+		
+		if (products == null)
+			return null;
+		
 		JSONArray jsonArray = new JSONArray();
 		for(Product product : products){
 			JSONObject object = product.toJsonObject();
