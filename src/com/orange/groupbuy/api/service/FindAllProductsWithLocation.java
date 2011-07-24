@@ -48,8 +48,8 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
 		}
-		if (!check(latitude, ErrorCode.ERROR_PARAMETER_LANGUAGE_EMPTY,
-				ErrorCode.ERROR_PARAMETER_LANGUAGE_NULL)) {
+		if (!check(latitude, ErrorCode.ERROR_PARAMETER_LATITUDE_EMPTY,
+				ErrorCode.ERROR_PARAMETER_LATITUDE_NULL)) {
 			return false;
 		}
 		if (!check(longitude, ErrorCode.ERROR_PARAMETER_LONGITUDE_EMPTY,
