@@ -23,6 +23,7 @@ public class CommonServiceUtils {
 		return obj;
 	}
 	
+	
 	public static JSONArray productListToJSONArray(List<Product> products){
 		
 		if (products == null)
@@ -30,7 +31,23 @@ public class CommonServiceUtils {
 		
 		JSONArray jsonArray = new JSONArray();
 		for(Product product : products){
-			JSONObject object = product.toJsonObject();
+			JSONObject object = new JSONObject();
+			
+			object.put(ServiceConstant.PARA_ID, product.getId());
+			object.put(ServiceConstant.PARA_LOC, product.getLoc());
+			object.put(ServiceConstant.PARA_CITY, product.getCity());
+			object.put(ServiceConstant.PARA_IMAGE, product.getImage());
+			object.put(ServiceConstant.PARA_TITLE, product.getTitle());
+			object.put(ServiceConstant.PARA_START_DATA, product.getStartDateString());
+			object.put(ServiceConstant.PARA_END_DATA, product.getEndDateString());
+			object.put(ServiceConstant.PARA_PRICE, product.getPrice());
+			object.put(ServiceConstant.PARA_VALUE, product.getValue());
+			object.put(ServiceConstant.PARA_BOUGHT, product.getBought());
+			object.put(ServiceConstant.PARA_SITE_ID, product.getSiteId());
+			object.put(ServiceConstant.PARA_SITE_NAME, product.getSiteName());
+			object.put(ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
+			object.put(ServiceConstant.PARA_REBATE, product.getRebate());
+			
 			jsonArray.add(object);
 		}
 		return jsonArray;
