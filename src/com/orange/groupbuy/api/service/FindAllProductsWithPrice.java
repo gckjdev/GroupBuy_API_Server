@@ -19,11 +19,20 @@ public class FindAllProductsWithPrice extends CommonGroupBuyService {
 	
 	
 	@Override
+	public String toString() {
+		return "FindAllProductsWithPrice [appId=" + appId + ", city=" + city
+				+ ", maxCount=" + maxCount + ", startOffset=" + startOffset
+				+ "]";
+	}
+
+	@Override
 	public void handleData() {
 		// TODO Auto-generated method stub
 		List<Product> products = ProductManager.getAllProductWithPrice(mongoClient, city, true, startOffset, maxCount);
 		resultData = CommonServiceUtils.productListToJSONArray(products);
 	}
+
+	
 
 	@Override
 	public String toString() {
