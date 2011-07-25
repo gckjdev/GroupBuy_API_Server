@@ -1,19 +1,14 @@
 package com.orange.groupbuy.api.service;
 
 import java.util.List;
-import java.util.Map;
-
-import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
-import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Product;
-import com.orange.groupbuy.dao.User;
 
 public class CommonServiceUtils {
 
@@ -46,7 +41,10 @@ public class CommonServiceUtils {
 			object.put(ServiceConstant.PARA_SITE_ID, product.getSiteId());
 			object.put(ServiceConstant.PARA_SITE_NAME, product.getSiteName());
 			object.put(ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
+<<<<<<< HEAD
 			object.put(ServiceConstant.PARA_REBATE, product.getRebate());
+=======
+>>>>>>> origin/master
 			
 			jsonArray.add(object);
 		}
