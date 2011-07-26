@@ -41,7 +41,7 @@ public class FindAllProductsWithLocation extends CommonGroupBuyService {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		maxCount = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
 		startOffset = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
-		latitude = request.getParameter(ServiceConstant.PARA_LANGUAGE);
+		latitude = request.getParameter(ServiceConstant.PARA_LATITUDE);
 		longitude = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
 
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,

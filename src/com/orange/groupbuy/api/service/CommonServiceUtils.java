@@ -41,14 +41,11 @@ public class CommonServiceUtils {
 			object.put(ServiceConstant.PARA_SITE_ID, product.getSiteId());
 			object.put(ServiceConstant.PARA_SITE_NAME, product.getSiteName());
 			object.put(ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
-<<<<<<< HEAD
 			object.put(ServiceConstant.PARA_REBATE, product.getRebate());
-=======
->>>>>>> origin/master
 			
 			jsonArray.add(object);
 		}
-		return jsonArray;
+		return jsonArray; 
 	}
 
 }

@@ -10,7 +10,7 @@ import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.manager.ProductManager;
 import com.orange.groupbuy.util.UrlUtil;
 
-public class FindAllProductsWithCateGory extends CommonGroupBuyService {
+public class FindAllProductsWithCategory extends CommonGroupBuyService {
 
 	String categories;
 	String appId;
@@ -62,7 +62,6 @@ public class FindAllProductsWithCateGory extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_CATEGORY_NULL)) {
 			return false;
 		}
-		System.out.println(toString());
 		return true;
 	}
 

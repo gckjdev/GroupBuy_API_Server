@@ -12,8 +12,8 @@ import com.orange.groupbuy.manager.ProductManager;
 public class FindAllProductsWithPrice extends CommonGroupBuyService {
 
 	String appId;
-	String maxCount;			
-	String startOffset;
+	int maxCount;			
+	int startOffset;
 	String city;
 	
 	
@@ -42,14 +42,16 @@ public class FindAllProductsWithPrice extends CommonGroupBuyService {
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
-		maxCount = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
-		startOffset = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
+		String maxCountStr = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
+		String startOffsetStr = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
 		city = request.getParameter(ServiceConstant.PARA_CITY);
 		
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY, ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
 		}
 		
+		maxCount = Integer.parseInt(maxCountStr);
+		startOffset = Integer.parseInt(startOffsetStr);				
 		return true;
 	}
 
