@@ -42,6 +42,8 @@ public class CommonServiceUtils {
 			object.put(ServiceConstant.PARA_SITE_NAME, product.getSiteName());
 			object.put(ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
 			object.put(ServiceConstant.PARA_REBATE, product.getRebate());
+			object.put(ServiceConstant.PARA_GPS, product.getGPS());
+			object.put(ServiceConstant.PARA_ADDRESS, product.getAddress());
 			
 			jsonArray.add(object);
 		}
