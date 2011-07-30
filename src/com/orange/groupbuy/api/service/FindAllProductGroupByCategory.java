@@ -55,6 +55,7 @@ public class FindAllProductGroupByCategory extends CommonGroupBuyService {
 			if (name != null && json != null){
 				JSONObject obj = new JSONObject();
 				obj.put(ServiceConstant.PARA_CATEGORY_NAME, name);
+				obj.put(ServiceConstant.PARA_CATEGORY_ID, category);
 				obj.put(ServiceConstant.PARA_PRODUCT, json);
 				
 				retJsonArray.add(obj);
