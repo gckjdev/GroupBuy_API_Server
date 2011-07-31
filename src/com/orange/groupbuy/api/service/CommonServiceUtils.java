@@ -8,6 +8,7 @@ import net.sf.json.JSONObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.App;
 import com.orange.groupbuy.dao.Product;
 
 public class CommonServiceUtils {
@@ -45,6 +46,13 @@ public class CommonServiceUtils {
 			jsonArray.add(object);
 		}
 		return jsonArray;
+	}
+	
+	public static Object AppToJSON(App app) {
+		JSONObject obj = new JSONObject();
+		obj.put(ServiceConstant.PARA_VERSION, app.getVersion());
+		obj.put(ServiceConstant.PARA_APPURL, app.getAppUrl());
+		return obj;
 	}
 
 }
