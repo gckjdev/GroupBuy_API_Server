@@ -42,10 +42,15 @@ public class CommonServiceUtils {
 			object.put(ServiceConstant.PARA_SITE_ID, product.getSiteId());
 			object.put(ServiceConstant.PARA_SITE_NAME, product.getSiteName());
 			object.put(ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
+			object.put(ServiceConstant.PARA_REBATE, product.getRebate());
+			object.put(ServiceConstant.PARA_GPS, product.getGPS());
+			object.put(ServiceConstant.PARA_ADDRESS, product.getAddress());
+			object.put(ServiceConstant.PARA_TEL, product.getTel());
+			object.put(ServiceConstant.PARA_WAP_URL, product.getWapLoc());
 			
 			jsonArray.add(object);
 		}
-		return jsonArray;
+		return jsonArray; 
 	}
 	
 	public static Object AppToJSON(App app) {
