@@ -22,10 +22,18 @@ public class RegisterDeviceService extends CommonGroupBuyService {
 	String countryCode;
 	
 	@Override
+	public String toString() {
+		return "RegisterDeviceService [appId=" + appId + ", countryCode="
+				+ countryCode + ", deviceId=" + deviceId + ", deviceModel="
+				+ deviceModel + ", deviceOS=" + deviceOS + ", deviceToken="
+				+ deviceToken + ", language=" + language + "]";
+	}
+
+	@Override
 	public void handleData() {
 
 		// TODO check if device exist
-		if (UserManager.findUserByDeviceId(mongoClient, deviceId) == null){
+		if (UserManager.findUserByDeviceId(mongoClient, deviceId) != null){
 			log.info("<registerDevice> user deviceId("+deviceId+") exist");
 			resultCode = ErrorCode.ERROR_LOGINID_DEVICE_BOTH_EXIST;
 			return;
@@ -34,12 +42,16 @@ public class RegisterDeviceService extends CommonGroupBuyService {
 		BasicDBObject user = UserManager.createDeviceUser(mongoClient, appId,
 				deviceModel, deviceId, deviceOS,
 				deviceToken, language, countryCode);
+		
 
 		if (user == null){
 			resultCode = ErrorCode.ERROR_CREATE_USER;
 			log.info("<registerDevice> fail to create user");
 			return;
 		} 
+		else{
+			log.info("<RegisterDeviceService> user="+user.toString());			
+		}
 		
 		String userId = user.getString(MongoDBClient.ID);
 		

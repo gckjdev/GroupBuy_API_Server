@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.App;
 import com.orange.groupbuy.dao.Product;
@@ -15,7 +16,7 @@ public class CommonServiceUtils {
 
 	public static JSONObject userToJSON(DBObject user) {
 		JSONObject obj = new JSONObject();
-		obj.put(ServiceConstant.PARA_USERID, user.get(MongoDBClient.ID));
+		obj.put(ServiceConstant.PARA_USERID, user.get(DBConstants.F_ID).toString());
 		return obj;
 	}
 	
