@@ -200,37 +200,37 @@
 			<version>1.2.16</version>
 		</dependency>
 	</dependencies>
+
 	<build>
-	<plugins>
 	
-<plugin>
-    <artifactId>maven-assembly-plugin</artifactId>
-    <configuration>
-        <appendAssemblyId>false</appendAssemblyId>
-        <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-        </descriptorRefs>
-        <archive>
-            <manifest>
-                <mainClass>com.orange.groupbuy.api.GroupBuyApiServer</mainClass>
-            </manifest>
-        </archive>
-    </configuration>
-    <executions>
-        <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-                <goal>assembly</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
+		<plugins>	
+			<plugin>
+			    <artifactId>maven-assembly-plugin</artifactId>    
+			    <configuration>
+			        <appendAssemblyId>false</appendAssemblyId>
+			        <descriptorRefs>
+			            <descriptorRef>jar-with-dependencies</descriptorRef>
+			        </descriptorRefs>
+			        <archive>
+			            <manifest>
+			                <mainClass>com.orange.groupbuy.api.GroupBuyApiServer</mainClass>
+			            </manifest>
+			        </archive>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <id>make-assembly</id>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>assembly</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
 
-</plugins>
+			
+		</plugins>	
 	
-	
-
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<outputDirectory>target/classes</outputDirectory>
