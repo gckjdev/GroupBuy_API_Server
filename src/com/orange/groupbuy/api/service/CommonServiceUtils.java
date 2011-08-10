@@ -20,6 +20,12 @@ public class CommonServiceUtils {
 		return obj;
 	}
 	
+	private static void safePut(JSONObject object, String key, Object value){
+		if (value == null)
+			return;
+		
+		object.put(key, value);		
+	}
 	
 	public static JSONArray productListToJSONArray(List<Product> products){
 		
@@ -30,24 +36,24 @@ public class CommonServiceUtils {
 		for(Product product : products){
 			JSONObject object = new JSONObject();
 			
-			object.put(ServiceConstant.PARA_ID, product.getId());
-			object.put(ServiceConstant.PARA_LOC, product.getLoc());
-			object.put(ServiceConstant.PARA_CITY, product.getCity());
-			object.put(ServiceConstant.PARA_IMAGE, product.getImage());
-			object.put(ServiceConstant.PARA_TITLE, product.getTitle());
-			object.put(ServiceConstant.PARA_START_DATA, product.getStartDateString());
-			object.put(ServiceConstant.PARA_END_DATA, product.getEndDateString());
-			object.put(ServiceConstant.PARA_PRICE, product.getPrice());
-			object.put(ServiceConstant.PARA_VALUE, product.getValue());
-			object.put(ServiceConstant.PARA_BOUGHT, product.getBought());
-			object.put(ServiceConstant.PARA_SITE_ID, product.getSiteId());
-			object.put(ServiceConstant.PARA_SITE_NAME, product.getSiteName());
-			object.put(ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
-			object.put(ServiceConstant.PARA_REBATE, product.getRebate());
-			object.put(ServiceConstant.PARA_GPS, product.getGPS());
-			object.put(ServiceConstant.PARA_ADDRESS, product.getAddress());
-			object.put(ServiceConstant.PARA_TEL, product.getTel());
-			object.put(ServiceConstant.PARA_WAP_URL, product.getWapLoc());
+			safePut(object, ServiceConstant.PARA_ID, product.getId());
+			safePut(object, ServiceConstant.PARA_LOC, product.getLoc());
+			safePut(object, ServiceConstant.PARA_CITY, product.getCity());
+			safePut(object, ServiceConstant.PARA_IMAGE, product.getImage());
+			safePut(object, ServiceConstant.PARA_TITLE, product.getTitle());
+			safePut(object, ServiceConstant.PARA_START_DATA, product.getStartDateString());
+			safePut(object, ServiceConstant.PARA_END_DATA, product.getEndDateString());
+			safePut(object, ServiceConstant.PARA_PRICE, product.getPrice());
+			safePut(object, ServiceConstant.PARA_VALUE, product.getValue());
+			safePut(object, ServiceConstant.PARA_BOUGHT, product.getBought());
+//			safePut(object, ServiceConstant.PARA_SITE_ID, product.getSiteId());
+			safePut(object, ServiceConstant.PARA_SITE_NAME, product.getSiteName());
+//			safePut(object, ServiceConstant.PARA_SITE_URL, product.getSiteUrl());
+			safePut(object, ServiceConstant.PARA_REBATE, product.getRebate());
+			safePut(object, ServiceConstant.PARA_GPS, product.getGPS());
+			safePut(object, ServiceConstant.PARA_ADDRESS, product.getAddress());
+			safePut(object, ServiceConstant.PARA_TEL, product.getTel());
+			safePut(object, ServiceConstant.PARA_WAP_URL, product.getWapLoc());
 			
 			jsonArray.add(object);
 		}
