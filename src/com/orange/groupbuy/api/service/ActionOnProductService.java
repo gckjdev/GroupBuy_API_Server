@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.manager.ProductManager;
 
 public class ActionOnProductService extends CommonGroupBuyService {
 
@@ -32,6 +33,7 @@ public class ActionOnProductService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {				
 		// write counter into product
+		ProductManager.incActionCounter(mongoClient, productId, actionName, actionValue);
 	}
 
 	@Override
