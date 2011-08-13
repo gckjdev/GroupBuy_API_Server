@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.orange.common.solr.SolrClient;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
@@ -49,8 +50,8 @@ public class SearchService extends CommonGroupBuyService {
 				UserManager.addSearchKeyword(mongoClient, deviceId, keywords);
 		}
 		
-		List<Product> productList = ProductManager.searchProduct(mongoClient, city, categoryList, 
-				todayOnly, keywords, startOffset, maxCount);
+		List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), city, categoryList, 
+				todayOnly, keyword, startOffset, maxCount);
 		
 		resultData = CommonServiceUtils.productListToJSONArray(productList);		
 	}
