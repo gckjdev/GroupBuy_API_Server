@@ -67,4 +67,18 @@ public class CommonServiceUtils {
 		return obj;
 	}
 
+	public static Object appKeywordToJSON(App app) {
+
+		List<String> keywordList = app.getAppKeywordList();  
+		if (keywordList == null)
+			return null;
+
+		JSONArray jsonArray = new JSONArray();		
+		for(String keyword : keywordList){
+			jsonArray.add(keyword);
+		}
+		
+		return jsonArray;
+	}
+
 }
