@@ -41,7 +41,6 @@ public class SearchService extends CommonGroupBuyService {
 
 	@Override
 	public void handleData() {
-
 		String[] keywords = keyword.trim().split(" ");
 		if (deviceId != null){
 			if (hasLocation)
@@ -67,6 +66,10 @@ public class SearchService extends CommonGroupBuyService {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		city = request.getParameter(ServiceConstant.PARA_CITY);
 		keyword = request.getParameter(ServiceConstant.PARA_KEYWORD);
+		if (!check(keyword, ErrorCode.ERROR_PARAMETER_KEYWORD_EMPTY,
+				ErrorCode.ERROR_PARAMETER_KEYWORD_NULL)) {
+			return false;
+		}
 		deviceId = request.getParameter(ServiceConstant.PARA_DEVICEID);
 		
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
