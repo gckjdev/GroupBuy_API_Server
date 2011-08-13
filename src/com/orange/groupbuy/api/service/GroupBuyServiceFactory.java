@@ -33,7 +33,10 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 			return new SearchService();
 		}else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTS)) {
 			return new FindProductService();
+		}else if (method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATEKEYWORD)) {
+			return new UpdateKeywordService();
 		}
+		
 		
 		else
 			return null;
