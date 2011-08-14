@@ -49,7 +49,7 @@ public class SearchService extends CommonGroupBuyService {
 				UserManager.addSearchKeyword(mongoClient, deviceId, keywords);
 		}
 		
-		List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), city, categoryList, 
+		List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
 				todayOnly, keyword, startOffset, maxCount);
 		
 		resultData = CommonServiceUtils.productListToJSONArray(productList);		
