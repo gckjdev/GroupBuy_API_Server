@@ -10,6 +10,7 @@ import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.manager.KeywordManager;
 import com.orange.groupbuy.manager.ProductManager;
 import com.orange.groupbuy.manager.UserManager;
 import com.orange.groupbuy.util.UrlUtil;
@@ -41,13 +42,15 @@ public class SearchService extends CommonGroupBuyService {
 
 	@Override
 	public void handleData() {
-		String[] keywords = keyword.trim().split(" ");
+		//String[] keywords = keyword.trim().split(" ");
 		if (deviceId != null){
 			if (hasLocation)
-				UserManager.addSearchKeyword(mongoClient, deviceId, keywords, longitude, latitude);
+				UserManager.addSearchKeyword(mongoClient, deviceId, keyword, longitude, latitude);
 			else
-				UserManager.addSearchKeyword(mongoClient, deviceId, keywords);
+				UserManager.addSearchKeyword(mongoClient, deviceId, keyword);
 		}
+		
+		KeywordManager.upsertKeyword(mongoClient, keyword);
 		
 //		List<Product> productList = ProductManager.searchProductByMongoDB(mongoClient, city, categoryList, todayOnly, keywords, startOffset, maxCount);
 		
