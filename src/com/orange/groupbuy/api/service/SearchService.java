@@ -9,6 +9,7 @@ import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.HotKeyword;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.manager.KeywordManager;
 import com.orange.groupbuy.manager.ProductManager;
@@ -52,10 +53,18 @@ public class SearchService extends CommonGroupBuyService {
 		
 		KeywordManager.upsertKeyword(mongoClient, keyword);
 		
-//		List<Product> productList = ProductManager.searchProductByMongoDB(mongoClient, city, categoryList, todayOnly, keywords, startOffset, maxCount);
-		
-		List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-				todayOnly, keyword, startOffset, maxCount);
+		HotKeyword hotKeyword = KeywordManager.findHotKeyword(mongoClient, keyword);
+		List<Product> productList = null;
+		if (hotKeyword == null){		
+//			productList = ProductManager.searchProductByMongoDB(mongoClient, city, categoryList, todayOnly, keywords, startOffset, maxCount);			
+			productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+					todayOnly, keyword, startOffset, maxCount);
+		}
+		else{
+			String queryString = hotKeyword.getQueryString();
+			productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+					todayOnly, queryString, startOffset, maxCount);			
+		}
 		
 		resultData = CommonServiceUtils.productListToJSONArray(productList);		
 	}
