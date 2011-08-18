@@ -44,10 +44,13 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATEKEYWORD)) {
 			return new UpdateKeywordService();
 		}
-		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_ACTIONONPRODUCT)) {
-			return new ActionOnProductService();
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERUSER)) {
+			return new RegisterUserService();
 		}
-		
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_CONFIRMUSER)) {
+			return new VerifyUserService();
+		}
+				
 		
 		else
 			return null;
