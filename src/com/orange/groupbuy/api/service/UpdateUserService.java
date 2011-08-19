@@ -56,7 +56,7 @@ public class UpdateUserService extends CommonGroupBuyService {
 			log.info("<updateUser> user not found");
 			return;
 		} 
-		else if(user.getString(DBConstants.F_PASSWORD).equals(StringUtil.md5base64encode(password))){
+		else if(user.getString(DBConstants.F_PASSWORD).equals(password)){
 			log.info("<updateUsere> user="+user.toString());	
 		}
 		else{
