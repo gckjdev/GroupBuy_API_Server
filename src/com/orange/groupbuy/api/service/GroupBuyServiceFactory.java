@@ -9,14 +9,17 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 	@Override
 	public CommonService createServiceObjectByMethod(String method) {
 		if (method == null){
-			return null;
+			return new VerifyUserService();
 		}
-		if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERDEVICE))
+		if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERDEVICE)){
 			return new RegisterDeviceService();
-		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DEVICELOGIN))
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DEVICELOGIN)){
 			return new DeviceLoginService();
-		else if(method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATE_SUBSCRIPTION))
+		}
+		else if(method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATE_SUBSCRIPTION)){
 			return new UpdateSubscriptionService();
+		}
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTSWITHPRICE)) {
 			return new FindAllProductsWithPrice();
 		}
@@ -47,11 +50,6 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERUSER)) {
 			return new RegisterUserService();
 		}
-		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_CONFIRMUSER)) {
-			return new VerifyUserService();
-		}
-				
-		
 		else
 			return null;
 	}

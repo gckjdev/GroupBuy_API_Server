@@ -83,11 +83,9 @@ public class RegisterUserService extends CommonGroupBuyService {
 		// send email verification
 		String verifyCode = user.getString(DBConstants.F_VERIFYCODE);
 		String email = user.getString(DBConstants.F_EMAIL);
-		//"localhost:8000/api/i?m=cf&vcd=123456"
-		String confirmUrl = ServiceConstant.CONFIRM_URL + "?" +ServiceConstant.METHOD + 
-							"=" + ServiceConstant.METHOD_CONFIRMUSER
-							+"&" + ServiceConstant.PARA_VERIFYCODE 
-							+ "=" + verifyCode;
+		
+		//"localhost:8000/service?code=123456"
+		String confirmUrl = ServiceConstant.VERIFY_URL + "?" + ServiceConstant.PARA_VERIFYCODE + "=" + verifyCode;
 		
 		MailSender sm = new MailSender();
 		sm.send(email, confirmUrl);
