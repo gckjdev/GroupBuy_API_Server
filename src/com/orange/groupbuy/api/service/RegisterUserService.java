@@ -18,11 +18,34 @@ public class RegisterUserService extends CommonGroupBuyService {
 	String appId;
 	String email;
 	String password;
+	String verification;
 	
 	@Override
 	public String toString() {
 		return "RegisterUserService [appId=" + appId + ", email=" + email
-				+ ", password=" + password + "]";
+				+ ", password=" + password + ", verification="
+				+ verification + "]";
+	}
+
+	public void sendVerification(BasicDBObject user){
+		
+		String verifyCode = user.getString(DBConstants.F_VERIFYCODE);
+		String email = user.getString(DBConstants.F_EMAIL);
+
+		// "localhost:8000/service?code=123456"
+		String confirmUrl = ServiceConstant.VERIFY_URL + "?"
+						  + ServiceConstant.PARA_VERIFYCODE + "=" + verifyCode;
+
+		MailSender sm = new MailSender();
+		sm.send(email, confirmUrl);
+	}
+	
+	public boolean isVerification(){
+		
+		if (verification.equals(ServiceConstant.VERIFICATION))
+			return true;
+		
+		return false;
 	}
 
 	@Override
@@ -30,6 +53,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
+		verification = request.getParameter(ServiceConstant.PARA_VERIFICATION);
 		
 		if (!StringUtil.isValidMail(email)){
 			log.info("<registerUser> user email("+email+") not valid");
@@ -44,6 +68,9 @@ public class RegisterUserService extends CommonGroupBuyService {
 			return false;
 		
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY, ErrorCode.ERROR_PARAMETER_APPID_NULL))
+			return false;
+		
+		if (!check(verification, ErrorCode.ERROR_PARAMETER_VERIFICATION_EMPTY, ErrorCode.ERROR_PARAMETER_VERIFICATION_NULL))
 			return false;
 		
 		return true;
@@ -63,7 +90,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 			return;
 		}
 		
-		BasicDBObject user =  UserManager.createUserByEmail(mongoClient, appId, email, password);
+		BasicDBObject user =  UserManager.createUserByEmail(mongoClient, appId, email, password, isVerification());
 	
 		if (user == null){
 			resultCode = ErrorCode.ERROR_CREATE_USER;
@@ -82,15 +109,9 @@ public class RegisterUserService extends CommonGroupBuyService {
 		resultData = obj;
 		
 		// send email verification
-		String verifyCode = user.getString(DBConstants.F_VERIFYCODE);
-		String email = user.getString(DBConstants.F_EMAIL);
-		
-		//"localhost:8000/service?code=123456"
-		String confirmUrl = ServiceConstant.VERIFY_URL + "?" + ServiceConstant.PARA_VERIFYCODE + "=" + verifyCode;
-		
-		MailSender sm = new MailSender();
-		sm.send(email, confirmUrl);
-		
+		if(isVerification()){
+			sendVerification(user);
+		}
 	}
 
 }
