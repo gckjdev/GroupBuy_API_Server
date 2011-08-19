@@ -72,11 +72,6 @@ public class UpdateUserService extends CommonGroupBuyService {
 		if(new_email != null && StringUtil.isValidMail(new_email)){
 			UserManager.updateEmail(mongoClient, email, new_email);
 		}
-		else if (!StringUtil.isValidMail(new_email)){
-			log.info("<UpdateUser> user email("+new_email+") not valid");
-			resultCode = ErrorCode.ERROR_EMAIL_NOT_VALID;
-			return;
-		}
 
 		String userId = user.getString(MongoDBClient.ID);
 		
