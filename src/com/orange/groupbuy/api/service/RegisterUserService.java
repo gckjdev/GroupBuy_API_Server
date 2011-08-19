@@ -31,8 +31,11 @@ public class RegisterUserService extends CommonGroupBuyService {
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
 		
-		if (!StringUtil.isValidMail(email))
+		if (!StringUtil.isValidMail(email)){
+			log.info("<registerUser> user email("+email+") not valid");
+			resultCode = ErrorCode.ERROR_EMAIL_NOT_VALID;
 			return false;
+		}
 		
 		if (!check(email, ErrorCode.ERROR_PARAMETER_EMAIL_EMPTY, ErrorCode.ERROR_PARAMETER_EMAIL_NULL))
 			return false;

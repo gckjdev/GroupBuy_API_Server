@@ -12,15 +12,19 @@ import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.manager.UserManager;
 
-public class LoginUserService extends CommonGroupBuyService {
-	
-	String email;
-	String password;
+public class UpdateUserService extends CommonGroupBuyService {
 
+	String email;
+	String new_email;
+	String password;
+	String new_password;
+	
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
+		new_email = request.getParameter(ServiceConstant.PARA_NEW_EMAIL);
+		new_password = request.getParameter(ServiceConstant.PARA_NEW_PASSWORD);
 		
 		if (!StringUtil.isValidMail(email)){
 			log.info("<LoginUser> user email("+email+") not valid");
@@ -33,7 +37,7 @@ public class LoginUserService extends CommonGroupBuyService {
 			
 		if (!check(password, ErrorCode.ERROR_PARAMETER_PASSWORD_EMPTY, ErrorCode.ERROR_PARAMETER_PASSWORD_NULL))
 			return false;
-
+		
 		return true;
 	}
 
@@ -49,18 +53,31 @@ public class LoginUserService extends CommonGroupBuyService {
 		
 		if (user == null){
 			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
-			log.info("<loginUser> user not found");
+			log.info("<updateUser> user not found");
 			return;
 		} 
 		else if(user.getString(DBConstants.F_PASSWORD).equals(StringUtil.md5base64encode(password))){
-			log.info("<LoginUserService> user="+user.toString());	
+			log.info("<updateUsere> user="+user.toString());	
 		}
 		else{
+			log.info("<updateUser> user password("+password+") not match");
 			resultCode = ErrorCode.ERROR_PASSWORD_NOT_MATCH;
-			log.info("<loginUser> password not match");
 			return;
 		}
 		
+		if(new_password != null && new_password.length() >= 0){
+			UserManager.updatePassword(mongoClient, email, new_password);
+		}
+		
+		if(new_email != null && StringUtil.isValidMail(new_email)){
+			UserManager.updateEmail(mongoClient, email, new_email);
+		}
+		else if (!StringUtil.isValidMail(new_email)){
+			log.info("<UpdateUser> user email("+new_email+") not valid");
+			resultCode = ErrorCode.ERROR_EMAIL_NOT_VALID;
+			return;
+		}
+
 		String userId = user.getString(MongoDBClient.ID);
 		
 		// set result data, return userId
@@ -69,5 +86,5 @@ public class LoginUserService extends CommonGroupBuyService {
 		resultData = obj;
 		
 	}
-
+	
 }
