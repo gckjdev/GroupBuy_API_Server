@@ -50,6 +50,9 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_REGISTERUSER)) {
 			return new RegisterUserService();
 		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_LOGIN)) {
+			return new LoginUserService();
+		}
 		else
 			return null;
 	}

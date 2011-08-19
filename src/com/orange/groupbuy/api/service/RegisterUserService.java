@@ -18,13 +18,11 @@ public class RegisterUserService extends CommonGroupBuyService {
 	String appId;
 	String email;
 	String password;
-	String mobileId;
 	
 	@Override
 	public String toString() {
 		return "RegisterUserService [appId=" + appId + ", email=" + email
-				+ ", password=" + password
-				+ ", mobileId=" + mobileId + "]";
+				+ ", password=" + password + "]";
 	}
 
 	@Override
