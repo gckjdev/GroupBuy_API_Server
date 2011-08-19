@@ -52,7 +52,7 @@ public class LoginUserService extends CommonGroupBuyService {
 			log.info("<loginUser> user not found");
 			return;
 		} 
-		else if(user.getString(DBConstants.F_PASSWORD).equals(StringUtil.md5base64encode(password))){
+		else if(user.getString(DBConstants.F_PASSWORD).equals(password)){
 			log.info("<LoginUserService> user="+user.toString());	
 		}
 		else{
