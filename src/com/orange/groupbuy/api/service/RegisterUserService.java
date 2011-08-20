@@ -15,22 +15,20 @@ import com.orange.groupbuy.manager.UserManager;
 
 public class RegisterUserService extends CommonGroupBuyService {
 
-	String appId;
-	String email;
-	String password;
-	String verification;
+	private String appId;
+	private String email;
+	private String password;
+	private boolean needVerification = true;
 	
 	@Override
 	public String toString() {
 		return "RegisterUserService [appId=" + appId + ", email=" + email
 				+ ", password=" + password + ", verification="
-				+ verification + "]";
+				+ needVerification + "]";
 	}
 
 	public void sendVerification(BasicDBObject user){
-		
 		String verifyCode = user.getString(DBConstants.F_VERIFYCODE);
-		String email = user.getString(DBConstants.F_EMAIL);
 
 		// "localhost:8000/service?code=123456"
 		String confirmUrl = ServiceConstant.VERIFY_URL + "?"
@@ -40,39 +38,30 @@ public class RegisterUserService extends CommonGroupBuyService {
 		sm.send(email, confirmUrl);
 	}
 	
-	public boolean isVerification(){
-		
-		if (verification.equals(ServiceConstant.VERIFICATION))
-			return true;
-		
-		return false;
-	}
-
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
-		verification = request.getParameter(ServiceConstant.PARA_VERIFICATION);
+		String Str_NeedVerificaton = request.getParameter(ServiceConstant.PARA_VERIFICATION);
 		
+		if (Str_NeedVerificaton != null && !Str_NeedVerificaton.equals(ServiceConstant.VERIFICATION)) {
+			needVerification = false;
+		}
 		if (!StringUtil.isValidMail(email)){
 			log.info("<registerUser> user email("+email+") not valid");
 			resultCode = ErrorCode.ERROR_EMAIL_NOT_VALID;
 			return false;
 		}
-		
-		if (!check(email, ErrorCode.ERROR_PARAMETER_EMAIL_EMPTY, ErrorCode.ERROR_PARAMETER_EMAIL_NULL))
+		if (!check(email, ErrorCode.ERROR_PARAMETER_EMAIL_EMPTY, ErrorCode.ERROR_PARAMETER_EMAIL_NULL)) {
 			return false;
-			
-		if (!check(password, ErrorCode.ERROR_PARAMETER_PASSWORD_EMPTY, ErrorCode.ERROR_PARAMETER_PASSWORD_NULL))
+		}
+		if (!check(password, ErrorCode.ERROR_PARAMETER_PASSWORD_EMPTY, ErrorCode.ERROR_PARAMETER_PASSWORD_NULL)) {
 			return false;
-		
-		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY, ErrorCode.ERROR_PARAMETER_APPID_NULL))
+		}
+		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY, ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
-		
-		if (!check(verification, ErrorCode.ERROR_PARAMETER_VERIFICATION_EMPTY, ErrorCode.ERROR_PARAMETER_VERIFICATION_NULL))
-			return false;
-		
+		}
 		return true;
 	}
 
@@ -90,14 +79,14 @@ public class RegisterUserService extends CommonGroupBuyService {
 			return;
 		}
 		
-		BasicDBObject user =  UserManager.createUserByEmail(mongoClient, appId, email, password, isVerification());
+		BasicDBObject user =  UserManager.createUserByEmail(mongoClient, appId, email, password, needVerification);
 	
-		if (user == null){
+		if (user == null) {
 			resultCode = ErrorCode.ERROR_CREATE_USER;
 			log.info("<registerEmail> fail to create user");
 			return;
 		} 
-		else{
+		else {
 			log.info("<RegisterUserService> user="+user.toString());			
 		}
 		
@@ -109,7 +98,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 		resultData = obj;
 		
 		// send email verification
-		if(isVerification()){
+		if (needVerification) {
 			sendVerification(user);
 		}
 	}
