@@ -8,7 +8,7 @@ import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.manager.UserManager;
 
-public class AddUserShoppingItemService extends CommonGroupBuyService {
+public class UpdateUserShoppingItemService extends CommonGroupBuyService {
 
 	String userId;
 	String appId;
@@ -19,20 +19,11 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 	double maxPrice = -1.0f;
 	double minRebate = -1.0f;		
 	
-	
-
 	@Override
 	public void handleData() {
-		
-//		User user = UserManager.findUserByUserId(mongoClient, userId);
-//		if (user == null){
-//			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
-//			return;
-//		}				
-		
-		if (!UserManager.addUserShoppingItem(mongoClient, userId, itemId, categoryName, 
+		if (!UserManager.updateUserShoppingItem(mongoClient, userId, itemId, categoryName, 
 				subCategoryName, keywords, maxPrice, minRebate)){
-			resultCode = ErrorCode.ERROR_ADD_SHOPPING_ITEM;
+			resultCode = ErrorCode.ERROR_UPDATE_SHOPPING_ITEM;
 			return;
 		}
 		
@@ -41,8 +32,6 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 
 	@Override
 	public boolean needSecurityCheck() {
-		// TODO Auto-generated method stub
-		
 		return false;
 	}
 
