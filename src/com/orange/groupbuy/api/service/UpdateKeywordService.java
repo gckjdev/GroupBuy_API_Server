@@ -10,13 +10,13 @@ import com.orange.groupbuy.manager.AppManager;
 public class UpdateKeywordService extends CommonGroupBuyService {
 
 	String appId;
-	String uid;
+	String userId;
 
 	
 	
 	@Override
 	public String toString() {
-		return "UpdateKeywordService [appId=" + appId + ", uid=" + uid + "]";
+		return "UpdateKeywordService [appId=" + appId + ", uid=" + userId + "]";
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class UpdateKeywordService extends CommonGroupBuyService {
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		this.appId = request.getParameter(ServiceConstant.PARA_APPID);
-		this.uid = request.getParameter(ServiceConstant.PARA_USERID);
+		this.userId = request.getParameter(ServiceConstant.PARA_USERID);
 
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {

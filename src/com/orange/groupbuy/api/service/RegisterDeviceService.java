@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 import com.mongodb.BasicDBObject;
 import com.orange.common.api.service.CommonService;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.manager.UserManager;
@@ -50,7 +51,11 @@ public class RegisterDeviceService extends CommonGroupBuyService {
 			return;
 		} 
 		else{
-			log.info("<RegisterDeviceService> user="+user.toString());			
+			log.info("<RegisterDeviceService> user="+user.toString());
+			if (!StringUtil.isEmpty(deviceToken)){
+				String userId = user.getString(MongoDBClient.ID);
+				UserManager.registerUserDeviceToken(userId, deviceToken);
+			}
 		}
 		
 		String userId = user.getString(MongoDBClient.ID);
