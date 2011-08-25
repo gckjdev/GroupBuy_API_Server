@@ -16,13 +16,14 @@ public class UpdateUserShoppingItemService extends CommonGroupBuyService {
 	String categoryName;
 	String subCategoryName;
 	String keywords;
+	String city;
 	double maxPrice = -1.0f;
 	double minRebate = -1.0f;		
 	
 	@Override
 	public void handleData() {
 		if (!UserManager.updateUserShoppingItem(mongoClient, userId, itemId, categoryName, 
-				subCategoryName, keywords, maxPrice, minRebate)){
+				subCategoryName, keywords, city, maxPrice, minRebate)){
 			resultCode = ErrorCode.ERROR_UPDATE_SHOPPING_ITEM;
 			return;
 		}
@@ -43,6 +44,7 @@ public class UpdateUserShoppingItemService extends CommonGroupBuyService {
 		categoryName = request.getParameter(ServiceConstant.PARA_CATEGORY_NAME);
 		subCategoryName = request.getParameter(ServiceConstant.PARA_SUB_CATEGORY_NAME); 
 		keywords = request.getParameter(ServiceConstant.PARA_KEYWORD);
+		city = request.getParameter(ServiceConstant.PARA_CITY);
 		
 		String priceStr = request.getParameter(ServiceConstant.PARA_PRICE);
 		String rebateStr = request.getParameter(ServiceConstant.PARA_REBATE);
