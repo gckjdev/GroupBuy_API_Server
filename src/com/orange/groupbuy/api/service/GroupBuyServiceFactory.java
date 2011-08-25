@@ -2,6 +2,9 @@ package com.orange.groupbuy.api.service;
 
 import com.orange.common.api.service.CommonService;
 import com.orange.common.api.service.CommonServiceFactory;
+import com.orange.groupbuy.api.service.user.AddUserShoppingItemService;
+import com.orange.groupbuy.api.service.user.DeleteUserShoppingItemService;
+import com.orange.groupbuy.api.service.user.UpdateUserShoppingItemService;
 import com.orange.groupbuy.constant.ServiceConstant;
 
 public class GroupBuyServiceFactory extends CommonServiceFactory {
@@ -55,6 +58,15 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		}
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATEUSER)) {
 			return new UpdateUserService();
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_ADDSHOPPINGITEM)) {
+			return new AddUserShoppingItemService();
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_UPDATESHOPPINGITEM)) {
+			return new UpdateUserShoppingItemService();
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DELETESHOPPINGITEM)) {
+			return new DeleteUserShoppingItemService();
 		}
 		else
 			return null;
