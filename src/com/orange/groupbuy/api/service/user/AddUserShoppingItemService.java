@@ -16,6 +16,7 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 	String categoryName;
 	String subCategoryName;
 	String keywords;
+	String city;
 	double maxPrice = -1.0f;
 	double minRebate = -1.0f;		
 	
@@ -38,7 +39,7 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 //		}				
 		
 		if (!UserManager.addUserShoppingItem(mongoClient, userId, itemId, categoryName, 
-				subCategoryName, keywords, maxPrice, minRebate)){
+				subCategoryName, keywords, city, maxPrice, minRebate)){
 			resultCode = ErrorCode.ERROR_ADD_SHOPPING_ITEM;
 			return;
 		}
@@ -61,6 +62,7 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 		categoryName = request.getParameter(ServiceConstant.PARA_CATEGORY_NAME);
 		subCategoryName = request.getParameter(ServiceConstant.PARA_SUB_CATEGORY_NAME); 
 		keywords = request.getParameter(ServiceConstant.PARA_KEYWORD);
+	    city = request.getParameter(ServiceConstant.PARA_CITY);
 		
 		String priceStr = request.getParameter(ServiceConstant.PARA_PRICE);
 		String rebateStr = request.getParameter(ServiceConstant.PARA_REBATE);
