@@ -61,11 +61,11 @@ public class UpdateUserShoppingItemService extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_ITEMID_NULL))
 			return false;
 
-		if (StringUtil.isEmpty(priceStr)){
+		if (!StringUtil.isEmpty(priceStr)){
 			maxPrice = Double.parseDouble(priceStr);
 		}
 		
-		if (StringUtil.isEmpty(rebateStr)){
+		if (!StringUtil.isEmpty(rebateStr)){
 			minRebate = Double.parseDouble(rebateStr);
 		}
 		
