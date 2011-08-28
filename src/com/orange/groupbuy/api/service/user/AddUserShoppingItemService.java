@@ -20,7 +20,14 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 	double maxPrice = -1.0f;
 	double minRebate = -1.0f;		
 	
-	
+	@Override
+	public String toString() {
+		return "AddUserShoppingItemService [appId=" + appId + ", categoryName="
+				+ categoryName + ", itemId=" + itemId + ", keywords="
+				+ keywords + ", maxPrice=" + maxPrice + ", minRebate="
+				+ minRebate + ", subCategoryName=" + subCategoryName
+				+ ", userId=" + userId + "]";
+	}
 
 	@Override
 	public void handleData() {
@@ -72,11 +79,11 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_ITEMID_NULL))
 			return false;
 
-		if (StringUtil.isEmpty(priceStr)){
+		if (!StringUtil.isEmpty(priceStr)){
 			maxPrice = Double.parseDouble(priceStr);
 		}
 		
-		if (StringUtil.isEmpty(rebateStr)){
+		if (!StringUtil.isEmpty(rebateStr)){
 			minRebate = Double.parseDouble(rebateStr);
 		}
 		
