@@ -54,6 +54,8 @@ public class CommonServiceUtils {
 			safePut(object, ServiceConstant.PARA_ADDRESS, product.getAddress());
 			safePut(object, ServiceConstant.PARA_TEL, product.getTel());
 			safePut(object, ServiceConstant.PARA_WAP_URL, product.getWapLoc());
+			safePut(object, ServiceConstant.PARA_UP, product.getUp());
+			safePut(object, ServiceConstant.PARA_DOWN, product.getDown());
 			
 			jsonArray.add(object);
 		}

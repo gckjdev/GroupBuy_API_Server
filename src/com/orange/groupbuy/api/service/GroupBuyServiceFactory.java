@@ -68,6 +68,9 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DELETESHOPPINGITEM)) {
 			return new DeleteUserShoppingItemService();
 		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_ACTIONONPRODUCT)) {
+			return new ActionOnProductService();
+		}
 		else
 			return null;
 	}

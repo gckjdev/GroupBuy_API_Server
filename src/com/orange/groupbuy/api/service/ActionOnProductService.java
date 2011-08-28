@@ -2,9 +2,12 @@ package com.orange.groupbuy.api.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.manager.ProductManager;
 
 public class ActionOnProductService extends CommonGroupBuyService {
@@ -34,6 +37,16 @@ public class ActionOnProductService extends CommonGroupBuyService {
 	public void handleData() {				
 		// write counter into product
 		ProductManager.incActionCounter(mongoClient, productId, actionName, actionValue);
+		Product product = ProductManager.findProductById(mongoClient, productId);
+		if (product == null){
+			resultCode = ErrorCode.ERROR_PRODUCT_NOT_FOUND;
+			return;
+		}
+		
+		int counterValue = product.getActionCounterValueByName(actionName);
+		JSONObject retJSON = new JSONObject();
+		retJSON.put(actionName, counterValue);
+		resultData = retJSON;
 	}
 
 	@Override
