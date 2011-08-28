@@ -14,9 +14,9 @@ import com.orange.groupbuy.manager.UserManager;
 
 public class RegisterDeviceService extends CommonGroupBuyService {
 
-	String appId;
-	String deviceModel;
-	String deviceId;
+    String appId;
+    String deviceModel;
+    String deviceId;
 	String deviceOS;
 	String deviceToken;	
 	String language;
