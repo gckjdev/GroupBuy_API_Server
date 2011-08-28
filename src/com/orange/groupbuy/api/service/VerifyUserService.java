@@ -3,6 +3,7 @@ package com.orange.groupbuy.api.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.mongodb.BasicDBObject;
+import com.orange.common.api.service.CommonParameter;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
@@ -37,9 +38,9 @@ public class VerifyUserService extends CommonGroupBuyService{
 			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
 			return;
 		}
-		else{
+		else {
 			//Already active
-			if (user.getString(DBConstants.F_STATUS).equals(DBConstants.STATUS_NORMAL)){
+			if (user.getString(DBConstants.F_STATUS).equals(DBConstants.STATUS_NORMAL)) {
 				log.info("<verifyUser> verifyCode("+vcd+") has been verified");
 				resultCode = ErrorCode.ERROR_EMAIL_VERIFIED;
 				return;
@@ -47,6 +48,9 @@ public class VerifyUserService extends CommonGroupBuyService{
 			//Active now
 			else if (user.getString(DBConstants.F_STATUS).equals(DBConstants.STATUS_TO_VERIFY)){
 				UserManager.updateStatusByVerifyCode(mongoClient,DBConstants.STATUS_NORMAL,vcd);
+				resultCode = CommonParameter.VERIFY_SUCCESS;
+				resultType = CommonParameter.TEXT_HTML;
+				return;
 			}
 		}
 	}
