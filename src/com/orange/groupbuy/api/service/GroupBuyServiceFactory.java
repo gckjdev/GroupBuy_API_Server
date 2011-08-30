@@ -77,6 +77,12 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_GETPRODUCTCOMMENTS)) {
 			return new GetCommentsService();
 		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_DELETESOLRINDEX)) {
+			return new DeleteSolrIndexService();
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDPRODUCTBYSCORE)) {
+			return new FindProductByTopScoreService();
+		}
 		else
 			return null;
 	}
