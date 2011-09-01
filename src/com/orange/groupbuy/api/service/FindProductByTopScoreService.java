@@ -47,11 +47,11 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		
 	    String startPriceStr = request.getParameter(ServiceConstant.PARA_START_PRICE);
 		if (!StringUtil.isEmpty(startPriceStr)){
-			startPrice = Integer.parseInt(maxCountStr);
+			startPrice = Integer.parseInt(startPriceStr);
 		}
 		String endPriceStr = request.getParameter(ServiceConstant.PARA_END_PRICE);
 		if (!StringUtil.isEmpty(endPriceStr)){
-			endPrice = Integer.parseInt(maxCountStr);
+			endPrice = Integer.parseInt(endPriceStr);
 		}	
 		String categoryStr = request.getParameter(ServiceConstant.PARA_CATEGORIES);
 		if (!StringUtil.isEmpty(categoryStr)){
