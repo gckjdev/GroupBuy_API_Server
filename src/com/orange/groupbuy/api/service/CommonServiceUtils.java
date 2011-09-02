@@ -10,6 +10,7 @@ import com.orange.common.mongodb.MongoDBClient;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.App;
+import com.orange.groupbuy.dao.Category;
 import com.orange.groupbuy.dao.Product;
 
 public class CommonServiceUtils {
@@ -82,6 +83,20 @@ public class CommonServiceUtils {
 		}
 		
 		return jsonArray;
+	}
+
+	public static JSONArray categoryListToJSONArray(List<Category> categoryList) {
+		if (categoryList == null)
+			return null;
+		
+		JSONArray jsonArray = new JSONArray();
+		for(Category category : categoryList){
+			JSONObject object = new JSONObject();
+			
+			safePut(object, ServiceConstant.PARA_CATEGORY_NAME, category.getCategoryName());						
+			jsonArray.add(object);
+		}
+		return jsonArray; 		
 	}
 
 }
