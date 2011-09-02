@@ -1,7 +1,10 @@
 package com.orange.groupbuy.api.service.user;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
 import com.orange.groupbuy.constant.ErrorCode;
@@ -18,7 +21,9 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 	String keywords;
 	String city;
 	double maxPrice = -1.0f;
-	double minRebate = -1.0f;		
+	double minRebate = -1.0f;
+	
+	Date expireDate;
 	
 	@Override
 	public String toString() {
@@ -39,7 +44,7 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 //		}				
 		
 		if (!UserManager.addUserShoppingItem(mongoClient, userId, itemId, categoryName, 
-				subCategoryName, keywords, city, maxPrice, minRebate)){
+				subCategoryName, keywords, city, maxPrice, minRebate, expireDate)){
 			resultCode = ErrorCode.ERROR_ADD_SHOPPING_ITEM;
 			return;
 		}
@@ -63,6 +68,7 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 		subCategoryName = request.getParameter(ServiceConstant.PARA_SUB_CATEGORY_NAME); 
 		keywords = request.getParameter(ServiceConstant.PARA_KEYWORD);
 	    city = request.getParameter(ServiceConstant.PARA_CITY);
+	    expireDate = DateUtil.dateFromString(request.getParameter(ServiceConstant.PARA_EXPIRE_DATE));
 		
 		String priceStr = request.getParameter(ServiceConstant.PARA_PRICE);
 		String rebateStr = request.getParameter(ServiceConstant.PARA_REBATE);
