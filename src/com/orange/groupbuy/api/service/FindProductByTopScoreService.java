@@ -76,7 +76,9 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		for (Product p : productList){
 			log.info("product id="+p.getId()+
 					", top score="+p.getTopScore()+
-					", title="+p.getTitle());
+					", title="+p.getTitle()+
+					", bought="+p.getBought()+
+					", startDate="+p.getStartDateString());
 		}
 		
 		resultData = CommonServiceUtils.productListToJSONArray(productList);	
