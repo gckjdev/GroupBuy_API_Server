@@ -11,7 +11,7 @@ import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.RecommendItem;
 import com.orange.groupbuy.manager.RecommendItemManager;
 
-public class FindProductByShoppingListService extends CommonGroupBuyService {
+public class FindProductByShoppingItemService extends CommonGroupBuyService {
 
     private String itemId;
     private String userId;
