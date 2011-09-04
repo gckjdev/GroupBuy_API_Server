@@ -166,8 +166,8 @@ public class CommonServiceUtils {
 	    JSONArray jsonArray = new JSONArray();
         for(String itemId : map.keySet()) {
             JSONObject object = new JSONObject();
-            object.put(DBConstants.F_ITEM_ID, itemId);
-            object.put(DBConstants.F_COUNT, map.get(itemId));
+            object.put(ServiceConstant.PARA_ITEMID, itemId);
+            object.put(ServiceConstant.PARA_MATCH_ITEM_COUNT, map.get(itemId));
             jsonArray.add(object);
         }
         return jsonArray;
