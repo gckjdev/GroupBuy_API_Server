@@ -6,6 +6,7 @@ import com.orange.groupbuy.api.service.category.GetAllCategoryService;
 import com.orange.groupbuy.api.service.category.GetShoppingCategoryService;
 import com.orange.groupbuy.api.service.user.AddUserShoppingItemService;
 import com.orange.groupbuy.api.service.user.DeleteUserShoppingItemService;
+import com.orange.groupbuy.api.service.user.GetUserShoppingItemListService;
 import com.orange.groupbuy.api.service.user.UpdateUserShoppingItemService;
 import com.orange.groupbuy.constant.ServiceConstant;
 
@@ -96,6 +97,12 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		    return new FindProductByShoppingItemService();
 
 		}
+		
+		else if(method.equalsIgnoreCase(ServiceConstant.METHOD_GETUSERSHOPPINGITEMLIST)) {			
+			return new GetUserShoppingItemListService();
+
+		}
+		
 		else
 			return null;
 	}

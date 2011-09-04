@@ -151,7 +151,7 @@ public class CommonServiceUtils {
 	}
 
 	public static JSONArray userShoppingItemListToJSONArray(
-			List<BasicDBObject> list) {
+			Object list) {
 		if(list == null)
 			return null;
 

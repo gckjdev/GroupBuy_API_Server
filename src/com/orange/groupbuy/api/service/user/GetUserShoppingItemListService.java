@@ -1,8 +1,6 @@
 package com.orange.groupbuy.api.service.user;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,15 +9,15 @@ import net.sf.json.JSONArray;
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.orange.common.utils.DateUtil;
-import com.orange.common.utils.StringUtil;
+
+import com.mongodb.DBObject;
+
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
 import com.orange.groupbuy.api.service.CommonServiceUtils;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
-import com.orange.groupbuy.dao.ShoppingCategory;
+
 
 public class GetUserShoppingItemListService extends CommonGroupBuyService {
 
@@ -35,24 +33,18 @@ public class GetUserShoppingItemListService extends CommonGroupBuyService {
 	}
 
 	@Override
+	public String toString() {
+		return "GetUserShoppingItemListService [userId=" + userId + ", appId="
+				+ appId + "]";
+	}
+
+	@Override
 	public void handleData() {
 		
-		DBCursor cursor = mongoClient.find(DBConstants.T_USER,DBConstants.F_USERID,userId);
-        List<BasicDBObject> userShoppingItemList = new ArrayList<BasicDBObject>();
-		if(cursor !=null)
-		{
-	        Iterator<?> iter = cursor.iterator();
-	        
-	        while (iter.hasNext()){
-	            BasicDBObject obj = (BasicDBObject)iter.next();
-	            BasicDBObject userShoppingItem = new BasicDBObject(obj);
-	            userShoppingItemList.add(userShoppingItem);
-	        }
-		}
-		
-		cursor.close();// TODO Auto-generated method stub
-		
-		if (userShoppingItemList != null && userShoppingItemList.size() > 0){			
+		ObjectId id = new ObjectId(userId);
+		BasicDBObject user = (BasicDBObject) mongoClient.findOne(DBConstants.T_USER,DBConstants.F_USERID,id);
+        DBObject userShoppingItemList =(DBObject) user.get(DBConstants.F_SHOPPING_LIST);
+		if (userShoppingItemList != null ){			
 			JSONArray jsonArray = CommonServiceUtils.userShoppingItemListToJSONArray(userShoppingItemList);
 			resultData = jsonArray;
 		}
@@ -63,10 +55,6 @@ public class GetUserShoppingItemListService extends CommonGroupBuyService {
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		userId = request.getParameter(ServiceConstant.PARA_USERID);
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
-
-		
-		String priceStr = request.getParameter(ServiceConstant.PARA_PRICE);
-		String rebateStr = request.getParameter(ServiceConstant.PARA_REBATE);
 		
 		if (!check(userId, ErrorCode.ERROR_PARAMETER_USERID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_USERID_NULL))
