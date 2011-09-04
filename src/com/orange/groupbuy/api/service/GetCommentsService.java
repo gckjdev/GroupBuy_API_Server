@@ -44,7 +44,7 @@ public class GetCommentsService extends CommonGroupBuyService {
 			commentObject.put(ServiceConstant.PARA_NICKNAME, comment.getString(DBConstants.F_NICKNAME));
 			commentObject.put(ServiceConstant.PARA_COMMENT_CONTENT, comment.getString(DBConstants.F_COMMENT_CONTENT));
 			Date date = (Date)comment.get(DBConstants.F_CREATE_DATE);
-			commentObject.put(ServiceConstant.PARA_CREATE_DATE, DateUtil.dateToString(date));
+			commentObject.put(ServiceConstant.PARA_CREATE_DATE, date.getTime());
 			commentsArray.add(commentObject);
 		}
 		
