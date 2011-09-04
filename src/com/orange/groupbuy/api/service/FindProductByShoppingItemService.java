@@ -52,7 +52,8 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
         RecommendItem item = RecommendItemManager.findRecommendItem(mongoClient, userId, itemId);
         List<Product> productList = null;
         if (item != null) {
-            productList = RecommendItemManager.getSortedRecommendProducts(mongoClient, item);
+            productList = RecommendItemManager.getRecommendProducts(mongoClient, item);
+            productList = RecommendItemManager.sortRecommendProducts(productList);
         }
         if(productList == null) {
             log.info("userId= " + userId + "itemId=" + itemId + "can't find any product.");
