@@ -1,6 +1,7 @@
 package com.orange.groupbuy.api.service;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -159,5 +160,16 @@ public class CommonServiceUtils {
 		jsonArray.add(list);
 	
 		return jsonArray;
+	}
+	
+	public static JSONArray userShoppingItemProductCountToJSONArray(Map<String, Integer> map) {
+	    JSONArray jsonArray = new JSONArray();
+        for(String itemId : map.keySet()) {
+            JSONObject object = new JSONObject();
+            object.put(ServiceConstant.PARA_ITEMID, itemId);
+            object.put(ServiceConstant.PARA_MATCH_ITEM_COUNT, map.get(itemId));
+            jsonArray.add(object);
+        }
+        return jsonArray;
 	}
 }
