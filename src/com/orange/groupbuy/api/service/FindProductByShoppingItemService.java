@@ -58,6 +58,9 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
         List<Product> subList = null;
         if (item != null) {
             productList = RecommendItemManager.getRecommendProducts(mongoClient, item);
+            if(productList == null) {
+                return;
+            }
             productList = RecommendItemManager.sortRecommendProducts(productList);
             
             int count = getMaxcount(maxCount);
