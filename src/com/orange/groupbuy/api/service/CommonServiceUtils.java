@@ -3,6 +3,8 @@ package com.orange.groupbuy.api.service;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jetty.util.log.Log;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -66,6 +68,8 @@ public class CommonServiceUtils {
 			safePut(object, ServiceConstant.PARA_WAP_URL, product.getWapLoc());
 			safePut(object, ServiceConstant.PARA_UP, product.getUp());
 			safePut(object, ServiceConstant.PARA_DOWN, product.getDown());
+			
+			System.out.println("product " + product.getId() + " top score = " + product.getTopScore());
 			safePut(object, ServiceConstant.PARA_TOP_SCORE,
 					product.getTopScore());
 
