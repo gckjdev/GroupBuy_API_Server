@@ -16,8 +16,7 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
     private String appId;
     private String maxCount;            
     private String startOffset;
-
-
+    private boolean requireMatch = false;
 
     @Override
     public String toString() {
@@ -31,6 +30,10 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
         appId = request.getParameter(ServiceConstant.PARA_APPID);
         maxCount = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
         startOffset = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
+        String str_requireMatch = request.getParameter(ServiceConstant.PARA_REQUIRE_MATCH);
+        if(str_requireMatch != null && str_requireMatch.equals(ServiceConstant.NEED_REQURIE_MATCH)) {
+            requireMatch = true;
+        }
 
 
         if (!check(userId, ErrorCode.ERROR_PARAMETER_USERID_EMPTY, ErrorCode.ERROR_PARAMETER_USERID_NULL)) {
@@ -53,6 +56,14 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
 
     @Override
     public void handleData() {
+        
+        String [] itemIdArray = new String[1];
+        itemIdArray[0] = itemId;
+        
+        if(requireMatch) {
+            RecommendItemManager.matchShoppingItem(mongoClient, userId, itemIdArray);
+        }
+        
         RecommendItem item = RecommendItemManager.findRecommendItem(mongoClient, userId, itemId);
         List<Product> productList = null;
         List<Product> subList = null;
@@ -76,7 +87,7 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
             return;
         }
         for (Product p : subList) {
-            log.info("product id=" + p.getId() + ", score=" + p.getScore() + ", title=" + p.getTitle());
+            log.info("product id=" + p.getId() +  ", title=" + p.getTitle());
         }
 
         resultData = CommonServiceUtils.productListToJSONArray(subList);
