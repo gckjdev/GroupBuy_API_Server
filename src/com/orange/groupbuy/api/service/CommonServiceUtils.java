@@ -69,7 +69,6 @@ public class CommonServiceUtils {
 			safePut(object, ServiceConstant.PARA_UP, product.getUp());
 			safePut(object, ServiceConstant.PARA_DOWN, product.getDown());
 			
-			System.out.println("product " + product.getId() + " top score = " + product.getTopScore());
 			safePut(object, ServiceConstant.PARA_TOP_SCORE,
 					product.getTopScore());
 
