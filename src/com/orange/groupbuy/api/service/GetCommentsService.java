@@ -37,6 +37,9 @@ public class GetCommentsService extends CommonGroupBuyService {
 		
 		JSONArray commentsArray = new JSONArray();
 		BasicDBList comments = product.getComments();
+		if (comments == null)
+			return;
+		
 		Iterator<Object> iterator = comments.iterator();
 		while (iterator.hasNext()) {
 			BasicDBObject comment = (BasicDBObject)iterator.next();
