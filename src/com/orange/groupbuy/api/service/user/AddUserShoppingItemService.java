@@ -9,6 +9,8 @@ import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.App;
+import com.orange.groupbuy.manager.AppManager;
 import com.orange.groupbuy.manager.UserManager;
 
 public class AddUserShoppingItemService extends CommonGroupBuyService {
@@ -43,7 +45,13 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 //			return;
 //		}				
 		
-		if (!UserManager.addUserShoppingItem(mongoClient, userId, itemId, categoryName, 
+		App app = AppManager.getApp(mongoClient, appId);
+		if (app == null){
+			resultCode = ErrorCode.ERROR_APP_NOT_FOUND;
+			return;
+		}			
+		
+		if (!UserManager.addUserShoppingItem(mongoClient, userId, itemId, appId, categoryName, 
 				subCategoryName, keywords, city, maxPrice, minRebate, expireDate)){
 			resultCode = ErrorCode.ERROR_ADD_SHOPPING_ITEM;
 			return;
