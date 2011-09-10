@@ -16,9 +16,28 @@ import com.orange.groupbuy.manager.UserManager;
 public class RegisterUserService extends CommonGroupBuyService {
 
 	private String appId;
-	private String email;
-	private String password;
-	private boolean needVerification = true;
+	
+	// for email registration
+	String email;
+	String password;
+	boolean needVerification = true;
+	
+	// for sina weibo or tecent weibo ID
+	String snsId;
+
+	// optional, shared, for sina weibo or tecent weibo 
+	String nickName;
+	String avatar;
+	String accessToken;
+	String accessTokenSecret;
+	String province;
+	String city;
+	String location;
+	String gender;
+	String birthday;
+	String domain;
+			
+	int registerType;						// by email, sina weibo, tecent weibo, etc							
 	
 	@Override
 	public String toString() {

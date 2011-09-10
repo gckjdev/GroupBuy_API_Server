@@ -14,11 +14,13 @@ import com.orange.groupbuy.manager.UserManager;
 
 public class LoginUserService extends CommonGroupBuyService {
 	
+	String appId;	
 	String email;
 	String password;
 
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
+		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
 		
