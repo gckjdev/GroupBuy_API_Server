@@ -17,7 +17,7 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	int maxCount = 25;			
 	int startOffset = 0;
 	int startPrice = -100;
-	int endPrice = 10;
+	int endPrice = 99999999;
 	int category = -1;
 	
 	@Override
