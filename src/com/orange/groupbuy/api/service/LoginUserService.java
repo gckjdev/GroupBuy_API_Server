@@ -50,7 +50,7 @@ public class LoginUserService extends CommonGroupBuyService {
 		BasicDBObject user = (BasicDBObject) UserManager.findUserByEmail(mongoClient, email);
 		
 		if (user == null){
-			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
+			resultCode = ErrorCode.ERROR_USER_EMAIL_NOT_FOUND;
 			log.info("<loginUser> user not found");
 			return;
 		} 
