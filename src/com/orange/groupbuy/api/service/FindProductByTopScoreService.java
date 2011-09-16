@@ -73,6 +73,9 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		List<Product> productList = ProductManager.getTopScoreProducts(mongoClient, city, 
 				category, startOffset, maxCount, startPrice, endPrice);
 		
+		if (productList == null || productList.size() == 0)
+			return;
+		
 		for (Product p : productList){
 			log.info("product id="+p.getId()+
 					", top score="+p.getTopScore()+

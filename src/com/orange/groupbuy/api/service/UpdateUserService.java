@@ -19,7 +19,7 @@ public class UpdateUserService extends CommonGroupBuyService {
 
 	// information for update, all optinal
 	String password;
-	String new_password;
+	String newPassword;
 
 	// optional
 	String nickName;
@@ -29,7 +29,7 @@ public class UpdateUserService extends CommonGroupBuyService {
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
-		new_password = request.getParameter(ServiceConstant.PARA_NEW_PASSWORD);
+		newPassword = request.getParameter(ServiceConstant.PARA_NEW_PASSWORD);
 		
 		if (!check(password, ErrorCode.ERROR_PARAMETER_PASSWORD_EMPTY, ErrorCode.ERROR_PARAMETER_PASSWORD_NULL))
 			return false;
@@ -61,7 +61,7 @@ public class UpdateUserService extends CommonGroupBuyService {
 //			return;
 //		}
 		
-		if(new_password != null && new_password.length() >= 0){
+		if(newPassword != null && newPassword.length() >= 0){
 //			UserManager.updatePassword(mongoClient, email, new_password);
 		}
 		
