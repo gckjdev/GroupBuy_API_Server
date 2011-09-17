@@ -77,6 +77,9 @@ public class DeviceLoginService extends CommonGroupBuyService {
 		String oldDeviceToken = (String)user.get(DBConstants.F_DEVICETOKEN);
 		String userId = ((ObjectId)user.get(DBConstants.F_ID)).toString();
 		if (!StringUtil.isEmpty(deviceToken) && !deviceToken.equalsIgnoreCase(oldDeviceToken)){
+			
+			log.info("<DeviceLoginService> update device token " + deviceToken);
+			
 			user.put(DBConstants.F_DEVICETOKEN, deviceToken);
 			mongoClient.save(DBConstants.T_USER, user);
 			

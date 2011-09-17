@@ -17,7 +17,7 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	int maxCount = 25;			
 	int startOffset = 0;
 	int startPrice = -100;
-	int endPrice = 10;
+	int endPrice = 99999999;
 	int category = -1;
 	
 	@Override
@@ -72,6 +72,9 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		// TODO Auto-generated method stub
 		List<Product> productList = ProductManager.getTopScoreProducts(mongoClient, city, 
 				category, startOffset, maxCount, startPrice, endPrice);
+		
+		if (productList == null || productList.size() == 0)
+			return;
 		
 		for (Product p : productList){
 			log.info("product id="+p.getId()+

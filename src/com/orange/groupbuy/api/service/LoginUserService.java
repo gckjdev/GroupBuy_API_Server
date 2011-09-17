@@ -14,11 +14,13 @@ import com.orange.groupbuy.manager.UserManager;
 
 public class LoginUserService extends CommonGroupBuyService {
 	
+	String appId;	
 	String email;
 	String password;
 
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
+		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
 		
@@ -48,7 +50,7 @@ public class LoginUserService extends CommonGroupBuyService {
 		BasicDBObject user = (BasicDBObject) UserManager.findUserByEmail(mongoClient, email);
 		
 		if (user == null){
-			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
+			resultCode = ErrorCode.ERROR_USER_EMAIL_NOT_FOUND;
 			log.info("<loginUser> user not found");
 			return;
 		} 

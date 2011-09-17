@@ -16,11 +16,14 @@ import com.orange.groupbuy.manager.CategoryManager;
 public class GetAllCategoryService extends CommonGroupBuyService {
 
 	String appId;
+	List<String> categoryList;
 	
 	// example request
 	// http://localhost:8000/api/i?m=gac&app=GROUPBUY
 	
-	
+	// return : 
+	// 1. first top product in the category
+	// 2. product count in the category
 	
 	@Override
 	public void handleData() {
