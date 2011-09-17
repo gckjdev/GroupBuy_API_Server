@@ -53,7 +53,9 @@ public class BindUserService extends CommonGroupBuyService {
 	public void handleData() {
 		User user = UserManager.findUserByUserId(mongoClient, userId);
 		if (user == null){
-			log.info("Cannot find user"+userId);
+			log.warn("<BindUserService> Cannot find user = "+userId);
+			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
+			return;
 		}
 		else{
 			switch (registerType){
