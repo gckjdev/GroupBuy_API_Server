@@ -5,7 +5,7 @@
 			<id>nexus</id>
 			<name>local nexus</name>
 			<!-- <url>http://localhost:8081/nexus/content/groups/public</url> -->
-			<url>http://192.168.1.101:8091/nexus/content/groups/public</url> 
+			<url>http://192.168.1.101:8091/nexus/content/groups/public</url>
 		</repository>
 		<repository>
 			<id>repo1 central</id>
@@ -25,7 +25,7 @@
 		</org.springframework.version>
 		<org.apache.mahout.version>0.4</org.apache.mahout.version>
 		<jettyVersion>7.3.0.v20110203</jettyVersion>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<!-- internal project -->
@@ -41,12 +41,12 @@
 		</dependency>
 		<!-- 3rd party -->
 		<dependency>
-               <artifactId>solr-solrj</artifactId>
-               <groupId>org.apache.solr</groupId>
-               <version>3.3.0</version>
-               <type>jar</type>
-               <scope>compile</scope>
-        </dependency>
+			<artifactId>solr-solrj</artifactId>
+			<groupId>org.apache.solr</groupId>
+			<version>3.3.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
@@ -122,6 +122,22 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.chenlb.mmseg4j</groupId>
+			<artifactId>mmseg4j</artifactId>
+			<version>1.8.4</version>
+			<classifier>dic</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.taobao.api</groupId>
+			<artifactId>taobao-sdk-java-online_standard</artifactId>
+			<version>20110914</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 
 		<!-- spring -->
@@ -209,47 +225,47 @@
 	</dependencies>
 
 	<build>
-	
-		<plugins>	
-			 <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>./lib/</classpathPrefix>
-                            <mainClass>
-                              com.orange.groupbuy.api.GroupBuyApiServer
-                            </mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>	
-			
-			 <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.0</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                             target/lib
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-			
-		</plugins>	
-	
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>./lib/</classpathPrefix>
+							<mainClass>
+								com.orange.groupbuy.api.GroupBuyApiServer
+							</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.0</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								target/lib
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<outputDirectory>target/classes</outputDirectory>
@@ -270,7 +286,7 @@
 			</testResource>
 		</testResources>
 	</build>
-	
-		
+
+
 </project>
 

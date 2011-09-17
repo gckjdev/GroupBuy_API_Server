@@ -4,6 +4,8 @@ import com.orange.common.api.service.CommonService;
 import com.orange.common.api.service.CommonServiceFactory;
 import com.orange.groupbuy.api.service.category.GetAllCategoryService;
 import com.orange.groupbuy.api.service.category.GetShoppingCategoryService;
+import com.orange.groupbuy.api.service.product.CompareProductService;
+import com.orange.groupbuy.api.service.product.SegmentService;
 import com.orange.groupbuy.api.service.user.AddUserShoppingItemService;
 import com.orange.groupbuy.api.service.user.BindUserService;
 import com.orange.groupbuy.api.service.user.CountShoppingItemProductsByUser;
@@ -113,6 +115,14 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_BIND_USER_SERVICE)){
 			return new BindUserService();
 		}
+		
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_SEGMENTSERVICE)) {
+			return new SegmentService();
+		}
+		
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_COMPAREPRODUCT_SERVICE)) {
+			return new CompareProductService();
+		} 
 
 		else
 			return null;
