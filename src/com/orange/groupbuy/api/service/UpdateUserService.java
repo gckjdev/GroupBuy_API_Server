@@ -50,7 +50,9 @@ public class UpdateUserService extends CommonGroupBuyService {
 		User user = UserManager.findUserByUserId(mongoClient, userId);
 
 		if (user == null) {
-			log.info("cannot find user:" + userId);
+			log.info("<UpateUserService> cannot find user:" + userId);
+			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
+			return;
 		} else {
 
 			if (password != null
