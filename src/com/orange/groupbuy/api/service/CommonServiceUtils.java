@@ -108,6 +108,10 @@ public class CommonServiceUtils {
 
 			safePut(object, ServiceConstant.PARA_CATEGORY_NAME,
 					category.getCategoryName());
+			
+			safePut(object, ServiceConstant.PARA_CATEGORY_ID,
+					category.getCategoryId());
+			
 			jsonArray.add(object);
 		}
 		return jsonArray;
