@@ -23,11 +23,14 @@ public class UpdateUserShoppingItemService extends CommonGroupBuyService {
 	double maxPrice = -1.0f;
 	double minRebate = -1.0f;		
 	Date expireDate;
+	String latitude;
+	String longitude;
+	String radius;
 	
 	@Override
 	public void handleData() {
 		if (!UserManager.updateUserShoppingItem(mongoClient, userId, itemId, categoryName, 
-				subCategoryName, keywords, city, maxPrice, minRebate, expireDate)){
+				subCategoryName, keywords, city, maxPrice, minRebate, expireDate, latitude, longitude, radius)){
 			resultCode = ErrorCode.ERROR_UPDATE_SHOPPING_ITEM;
 			return;
 		}
@@ -50,7 +53,10 @@ public class UpdateUserShoppingItemService extends CommonGroupBuyService {
 		keywords = request.getParameter(ServiceConstant.PARA_KEYWORD);
 		city = request.getParameter(ServiceConstant.PARA_CITY);
 	    expireDate = DateUtil.dateFromString(request.getParameter(ServiceConstant.PARA_EXPIRE_DATE));
-
+	    latitude = request.getParameter(ServiceConstant.PARA_LATITUDE);
+	    longitude = request.getParameter(ServiceConstant.PARA_LONGITUDE);
+	    radius = request.getParameter(ServiceConstant.PARA_RADIUS);
+	    
 		String priceStr = request.getParameter(ServiceConstant.PARA_PRICE);
 		String rebateStr = request.getParameter(ServiceConstant.PARA_REBATE);
 		

@@ -87,7 +87,7 @@ public class SearchService extends CommonGroupBuyService {
 		deviceId = request.getParameter(ServiceConstant.PARA_DEVICEID);
 		
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
-		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
+		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
 		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr)){
 			hasLocation = true;
 			latitude = Double.parseDouble(latitudeStr);

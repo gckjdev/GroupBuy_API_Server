@@ -62,7 +62,7 @@ public class FindProductService extends CommonGroupBuyService {
 		city = request.getParameter(ServiceConstant.PARA_CITY);
 		
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
-		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
+		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
 		String maxDistanceStr = request.getParameter(ServiceConstant.PARA_MAX_DISTANCE);
 		
 		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr)){

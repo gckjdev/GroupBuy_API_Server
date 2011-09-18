@@ -63,7 +63,7 @@ public class ActionOnProductService extends CommonGroupBuyService {
 		String actionValueStr = request.getParameter(ServiceConstant.PARA_ACTION_VALUE);
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
-		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
+		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
 		
 		if (!check(productId, ErrorCode.ERROR_PARAMETER_PRODUCTID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_PRODUCTID_NULL))
