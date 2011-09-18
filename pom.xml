@@ -222,22 +222,6 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-		<dependency>
-			<groupId>com.chenlb.mmseg4j</groupId>
-			<artifactId>mmseg4j</artifactId>
-			<version>1.8.4</version>
-			<classifier>dic</classifier>
-		</dependency>
-		<dependency>
-			<groupId>com.taobao.api</groupId>
-			<artifactId>taobao-sdk-java-online_standard</artifactId>
-			<version>20110914</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.6.1</version>
-		</dependency>
 	</dependencies>
 
 	<build>
