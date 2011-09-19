@@ -27,16 +27,18 @@ public class SearchService extends CommonGroupBuyService {
 	int maxCount = 30;								// optional
 	String keyword;									// mandantory
 	
-	double latitude;								// optional, only for record user search history
-	double longitude;								// optional, only for record user search history
+	Double latitude;								// optional, only for record user search history
+	Double longitude;								// optional, only for record user search history
 	boolean hasLocation = false;					// internal usage
+	Double radius;
 		
 	@Override
 	public String toString() {
 		return "SearchService [appId=" + appId + ", categoryList="
 				+ categoryList + ", city=" + city + ", hasLocation="
 				+ hasLocation + ", keyword=" + keyword + ", latitude="
-				+ latitude + ", longitude=" + longitude + ", maxCount="
+				+ latitude + ", longitude=" + longitude + ", radius="
+				+ radius + ", maxCount="
 				+ maxCount + ", startOffset=" + startOffset + ", todayOnly="
 				+ todayOnly + ", deviceId=" + deviceId + "]";
 	}
@@ -55,15 +57,28 @@ public class SearchService extends CommonGroupBuyService {
 		
 		HotKeyword hotKeyword = KeywordManager.findHotKeyword(mongoClient, keyword);
 		List<Product> productList = null;
-		if (hotKeyword == null){		
-//			productList = ProductManager.searchProductByMongoDB(mongoClient, city, categoryList, todayOnly, keywords, startOffset, maxCount);			
-			productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-					todayOnly, keyword, startOffset, maxCount);
+		if (hotKeyword == null){	
+//			productList = ProductManager.searchProductByMongoDB(mongoClient, city, categoryList, todayOnly, keywords, startOffset, maxCount);
+			if (hasLocation) {
+				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+						todayOnly, keyword, latitude, longitude, radius, startOffset, maxCount);
+			} else {
+				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+						todayOnly, keyword, null, null, null, startOffset, maxCount);
+			}
+			
+			
 		}
 		else{
 			String queryString = hotKeyword.getQueryString();
-			productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-					todayOnly, queryString, startOffset, maxCount);			
+			if (hasLocation) {
+				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+						todayOnly, queryString, latitude, longitude, radius, startOffset, maxCount);		
+			} else {
+				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+						todayOnly, queryString, null, null, null, startOffset, maxCount);		
+			}
+				
 		}
 		
 		resultData = CommonServiceUtils.productListToJSONArray(productList);		
@@ -88,10 +103,12 @@ public class SearchService extends CommonGroupBuyService {
 		
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
 		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
-		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr)){
+		String radiusStr = request.getParameter(ServiceConstant.PARA_RADIUS);
+		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr) && !StringUtil.isEmpty(radiusStr)){
 			hasLocation = true;
 			latitude = Double.parseDouble(latitudeStr);
 			longitude = Double.parseDouble(longitudeStr);
+			radius = Double.parseDouble(radiusStr) / 1000;
 		}
 		
 		String todayOnlyStr = request.getParameter(ServiceConstant.PARA_TODAY_ONLY);

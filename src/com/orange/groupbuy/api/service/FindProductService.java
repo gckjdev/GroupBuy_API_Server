@@ -65,10 +65,11 @@ public class FindProductService extends CommonGroupBuyService {
 		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
 		String maxDistanceStr = request.getParameter(ServiceConstant.PARA_MAX_DISTANCE);
 		
-		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr)){
+		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr) && !StringUtil.isEmpty(maxDistanceStr)){
 			gpsQuery = true;
 			latitude = Double.parseDouble(latitudeStr);
 			longitude = Double.parseDouble(longitudeStr);
+			maxDistance = Double.parseDouble(maxDistanceStr);
 		}
 		
 		if (!StringUtil.isEmpty(maxDistanceStr)){
@@ -102,6 +103,8 @@ public class FindProductService extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
 		}				
+		
+		
 		
 		return true;
 	}
