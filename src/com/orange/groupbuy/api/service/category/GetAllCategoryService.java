@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
 import com.orange.groupbuy.api.service.CommonServiceUtils;
@@ -12,6 +13,7 @@ import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Category;
 import com.orange.groupbuy.manager.CategoryManager;
+import com.orange.groupbuy.manager.ProductManager;
 
 public class GetAllCategoryService extends CommonGroupBuyService {
 
@@ -29,7 +31,22 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 	public void handleData() {
 		List<Category> categoryList = CategoryManager.findAllCategory(mongoClient);
 		if (categoryList != null && categoryList.size() > 0){			
-			JSONArray jsonArray = CommonServiceUtils.categoryListToJSONArray(categoryList);
+			//JSONArray jsonArray = CommonServiceUtils.categoryListToJSONArray(categoryList);
+			JSONArray jsonArray = new JSONArray();
+			for (Category category : categoryList) {
+				JSONObject object = new JSONObject();
+
+				object.put(ServiceConstant.PARA_CATEGORY_NAME,
+						category.getCategoryName());
+				
+				object.put(ServiceConstant.PARA_CATEGORY_ID,
+						category.getCategoryId());
+				
+				Long number = ProductManager.getProductsNumberByCategory(mongoClient, category.getCategoryId());
+				object.put(ServiceConstant.PARA_CATEGORY_PRODUCTS_NUM, number);
+				
+				jsonArray.add(object);
+			}
 			resultData = jsonArray;
 		}
 	}

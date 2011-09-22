@@ -2,13 +2,18 @@ package com.orange.groupbuy.api.service.user;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 
 import org.bson.types.ObjectId;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 
 import com.mongodb.DBObject;
 
@@ -17,6 +22,9 @@ import com.orange.groupbuy.api.service.CommonServiceUtils;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.dao.User;
+import com.orange.groupbuy.manager.UserManager;
 
 
 public class GetUserShoppingItemListService extends CommonGroupBuyService {
@@ -41,9 +49,9 @@ public class GetUserShoppingItemListService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {
 		
-		ObjectId id = new ObjectId(userId);
-		BasicDBObject user = (BasicDBObject) mongoClient.findOne(DBConstants.T_USER,DBConstants.F_USERID,id);
-        DBObject userShoppingItemList =(DBObject) user.get(DBConstants.F_SHOPPING_LIST);
+		User user = UserManager.findUserByUserId(mongoClient, userId);
+		BasicDBList userShoppingItemList = user.getShoppingItem();
+		
 		if (userShoppingItemList != null ){			
 			JSONArray jsonArray = CommonServiceUtils.userShoppingItemListToJSONArray(userShoppingItemList);
 			resultData = jsonArray;

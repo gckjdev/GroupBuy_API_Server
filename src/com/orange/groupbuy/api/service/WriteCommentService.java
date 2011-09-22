@@ -44,7 +44,7 @@ public class WriteCommentService extends CommonGroupBuyService {
 		nickName = request.getParameter(ServiceConstant.PARA_NICKNAME);
 		content = request.getParameter(ServiceConstant.PARA_COMMENT_CONTENT);
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
-		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGTITUDE);
+		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
 		
 		if (!check(productId, ErrorCode.ERROR_PARAMETER_PRODUCTID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_PRODUCTID_NULL))

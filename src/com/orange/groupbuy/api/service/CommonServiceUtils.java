@@ -159,12 +159,26 @@ public class CommonServiceUtils {
 	}
 
 	public static JSONArray userShoppingItemListToJSONArray(
-			Object list) {
+			BasicDBList list) {
 		if(list == null)
 			return null;
 
 		JSONArray jsonArray = new JSONArray();
-		jsonArray.add(list);
+		for(Object item : list){
+			JSONObject object = new JSONObject();
+			BasicDBObject shoppingItem = (BasicDBObject) item;
+			safePut(object, ServiceConstant.PARA_ITEMID, shoppingItem.get(DBConstants.F_ITEM_ID));
+			safePut(object, ServiceConstant.PARA_CATEGORY_NAME, shoppingItem.get(DBConstants.F_CATEGORY_NAME));
+			safePut(object, ServiceConstant.PARA_SUB_CATEGORY_NAME, shoppingItem.get(DBConstants.F_SUB_CATEGORY_NAME));
+			safePut(object, ServiceConstant.PARA_CITY, shoppingItem.get(DBConstants.F_CITY));
+			safePut(object, ServiceConstant.PARA_LATITUDE, shoppingItem.get(DBConstants.F_LATITUDE));
+			safePut(object, ServiceConstant.PARA_LONGITUDE, shoppingItem.get(DBConstants.F_LONGITUDE));
+			safePut(object, ServiceConstant.PARA_RADIUS, shoppingItem.get(DBConstants.F_RADIUS));
+			jsonArray.add(object);
+			
+		}
+			
+		
 	
 		return jsonArray;
 	}
