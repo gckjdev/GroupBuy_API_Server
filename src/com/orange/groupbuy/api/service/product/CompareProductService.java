@@ -62,8 +62,23 @@ public class CompareProductService extends CommonGroupBuyService {
 			// add product site
 			JSONObject object = JSONObject.fromObject(content);
 			object = object.getJSONObject("items_search_response");
+			if (object == null || !object.containsKey("item_search")){
+				log.info("search taobao product but no result found");
+				return;
+			}
+
 			object = object.getJSONObject("item_search");
+			if (object == null || !object.containsKey("items")){
+				log.info("search taobao product but no result found");
+				return;
+			}
+			
 			object = object.getJSONObject("items");
+			if (object == null || !object.containsKey("item")){
+				log.info("search taobao product but no result found");
+				return;
+			}
+			
 			JSONArray taobaoItems = object.getJSONArray("item");
 			for (int i=0; i<taobaoItems.size(); i++) {
 				JSONObject taobaoItem = (JSONObject) taobaoItems.get(i);
@@ -72,10 +87,8 @@ public class CompareProductService extends CommonGroupBuyService {
 				taobaoItem.accumulate("product_site", site);
 				taobaoItems.set(i, taobaoItem);
 			}
-			// add to result
-			JSONArray array = new JSONArray();
-			array.add(object);	
-			resultData = array;						
+			// add to response result
+			resultData = taobaoItems;	
 			
 		}
 		catch (ApiException e) {
