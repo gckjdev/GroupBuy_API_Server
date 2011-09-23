@@ -18,17 +18,17 @@ import com.taobao.api.response.ItemsSearchResponse;
 
 public class CompareProductService extends CommonGroupBuyService {
 	
-	String compareWord;
+	String keywords;
 
 	@Override
 	public String toString() {
-		return "CompareProductService [compareWord=" + compareWord + "]";
+		return "CompareProductService [keywords=" + keywords + "]";
 	}
 
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
-		compareWord = request.getParameter(ServiceConstant.PARA_COMPAREWORD);
-		if (!check(compareWord, ErrorCode.ERROR_PARAMETER_COMPAREWORD_EMPTY, ErrorCode.ERROR_PARAMETER_COMPAREWORD_NULL)) {
+		keywords = request.getParameter(ServiceConstant.PARA_KEYWORDS);
+		if (!check(keywords, ErrorCode.ERROR_PARAMETER_COMPAREWORD_EMPTY, ErrorCode.ERROR_PARAMETER_COMPAREWORD_NULL)) {
 			return false;
 		}
 		return true;
@@ -48,10 +48,10 @@ public class CompareProductService extends CommonGroupBuyService {
 			final String secret = "918cf5f4f2d5d387a622da0257821bd0";
 			final String basicSite = "http://a.m.taobao.com/i";
 			
-			TaobaoClient client=new DefaultTaobaoClient(url, appkey, secret);
-			ItemsSearchRequest req=new ItemsSearchRequest();
+			TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+			ItemsSearchRequest req = new ItemsSearchRequest();
 			req.setFields("num_iid,title,nick,pic_url,price,post_fee");
-			req.setQ(compareWord);
+			req.setQ(keywords);
 			req.setOrderBy("popularity:desc");
 			ItemsSearchResponse response = client.execute(req);
 			
@@ -75,17 +75,12 @@ public class CompareProductService extends CommonGroupBuyService {
 			// add to result
 			JSONArray array = new JSONArray();
 			array.add(object);	
-			resultData = array;
-			
-			
+			resultData = array;						
 			
 		}
 		catch (ApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+			log.error("<CompareProductService> catch exception = " + e.toString(), e);
+		}				
 	}
 
 }
