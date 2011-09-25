@@ -24,6 +24,9 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 	String city;
 	double maxPrice = -1.0f;
 	double minRebate = -1.0f;
+	String latitude = null;
+	String longitude = null;
+	String radius = null;
 	
 	Date expireDate;
 	
@@ -52,7 +55,7 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 		}			
 		
 		if (!UserManager.addUserShoppingItem(mongoClient, userId, itemId, appId, categoryName, 
-				subCategoryName, keywords, city, maxPrice, minRebate, expireDate)){
+				subCategoryName, keywords, city, maxPrice, minRebate, expireDate, latitude, longitude, radius)){
 			resultCode = ErrorCode.ERROR_ADD_SHOPPING_ITEM;
 			return;
 		}
@@ -77,6 +80,9 @@ public class AddUserShoppingItemService extends CommonGroupBuyService {
 		keywords = request.getParameter(ServiceConstant.PARA_KEYWORD);
 	    city = request.getParameter(ServiceConstant.PARA_CITY);
 	    expireDate = DateUtil.dateFromString(request.getParameter(ServiceConstant.PARA_EXPIRE_DATE));
+	    latitude = request.getParameter(ServiceConstant.PARA_LATITUDE);
+	    longitude = request.getParameter(ServiceConstant.PARA_LONGITUDE);
+	    radius = request.getParameter(ServiceConstant.PARA_RADIUS);
 		
 		String priceStr = request.getParameter(ServiceConstant.PARA_PRICE);
 		String rebateStr = request.getParameter(ServiceConstant.PARA_REBATE);
