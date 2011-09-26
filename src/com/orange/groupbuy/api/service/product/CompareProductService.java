@@ -82,7 +82,7 @@ public class CompareProductService extends CommonGroupBuyService {
 			JSONArray taobaoItems = object.getJSONArray("item");
 			for (int i=0; i<taobaoItems.size(); i++) {
 				JSONObject taobaoItem = (JSONObject) taobaoItems.get(i);
-				Long id = (Long) taobaoItem.get("num_iid");
+				Object id = taobaoItem.get("num_iid");
 				String site = basicSite.concat(""+id).concat(".htm");
 				taobaoItem.accumulate("product_site", site);
 				taobaoItems.set(i, taobaoItem);
