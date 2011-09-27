@@ -20,6 +20,7 @@ import com.orange.groupbuy.manager.ProductManager;
 public class GetAllCategoryService extends CommonGroupBuyService {
 
 	String appId;
+	String city;
 	List<String> categoryList;
 	
 	// example request
@@ -44,7 +45,7 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 				object.put(ServiceConstant.PARA_CATEGORY_ID,
 						category.getCategoryId());
 				
-				Long number = ProductManager.getProductsNumberByCategory(mongoClient, category.getCategoryId());
+				Long number = ProductManager.getProductsNumberByCategory(mongoClient, category.getCategoryId(), city);
 				object.put(ServiceConstant.PARA_CATEGORY_PRODUCTS_NUM, number);
 				
 				jsonArray.add(object);
@@ -55,7 +56,8 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 
 	@Override
 	public String toString() {
-		return "GetAllCategoryService [appId=" + appId + "]";
+		return "GetAllCategoryService [appId=" + appId + ", categoryList="
+				+ categoryList + ", city=" + city + "]";
 	}
 
 	@Override
@@ -70,7 +72,8 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL))
 			return false;	
-	
+		
+		city= request.getParameter(ServiceConstant.PARA_CITY);	
 		return true;
 	}
 
