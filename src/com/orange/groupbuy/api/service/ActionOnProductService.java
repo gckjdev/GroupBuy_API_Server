@@ -36,6 +36,7 @@ public class ActionOnProductService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {				
 		// write counter into product
+		// TODO refactor code, use findAndModify to find and return object at the same time
 		ProductManager.incActionCounter(mongoClient, productId, actionName, actionValue);
 		Product product = ProductManager.findProductById(mongoClient, productId);
 		if (product == null){
