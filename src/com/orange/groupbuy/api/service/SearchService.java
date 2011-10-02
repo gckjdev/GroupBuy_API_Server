@@ -73,7 +73,7 @@ public class SearchService extends CommonGroupBuyService {
 			String queryString = hotKeyword.getQueryString();
 			if (hasLocation) {
 				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-						todayOnly, queryString, latitude, longitude, radius, startOffset, maxCount);		
+						todayOnly, queryString, null, null, null, startOffset, maxCount);		
 			} else {
 				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
 						todayOnly, queryString, null, null, null, startOffset, maxCount);		
