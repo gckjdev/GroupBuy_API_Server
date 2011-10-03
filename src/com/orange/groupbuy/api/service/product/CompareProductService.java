@@ -3,6 +3,8 @@ package com.orange.groupbuy.api.service.product;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.Jsoup;
+import org.omg.CORBA.PRIVATE_MEMBER;
+import org.springframework.context.support.StaticApplicationContext;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -10,6 +12,7 @@ import net.sf.json.JSONObject;
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
@@ -19,6 +22,11 @@ import com.taobao.api.response.ItemsSearchResponse;
 public class CompareProductService extends CommonGroupBuyService {
 	
 	String keywords;
+	final static String url = "http://gw.api.taobao.com/router/rest";
+	final static String appkey = "12362612";
+	final static String secret = "918cf5f4f2d5d387a622da0257821bd0";
+	final String basicSite = "http://a.m.taobao.com/i";
+	private static final TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret); 
 
 	@Override
 	public String toString() {
@@ -43,12 +51,6 @@ public class CompareProductService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {
 		try{
-			final String url = "http://gw.api.taobao.com/router/rest";
-			final String appkey = "12362612";
-			final String secret = "918cf5f4f2d5d387a622da0257821bd0";
-			final String basicSite = "http://a.m.taobao.com/i";
-			
-			TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 			ItemsSearchRequest req = new ItemsSearchRequest();
 			req.setFields("num_iid,title,nick,pic_url,price,post_fee");
 			req.setQ(keywords);
