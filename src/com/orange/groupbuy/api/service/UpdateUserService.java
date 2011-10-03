@@ -21,6 +21,7 @@ public class UpdateUserService extends CommonGroupBuyService {
 	
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
+		userId = request.getParameter(ServiceConstant.PARA_USERID);
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
 		newPassword = request.getParameter(ServiceConstant.PARA_NEW_PASSWORD);
@@ -46,41 +47,27 @@ public class UpdateUserService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {
 
-		int result = -1;
 		User user = UserManager.findUserByUserId(mongoClient, userId);
-
 		if (user == null) {
 			log.info("<UpateUserService> cannot find user:" + userId);
 			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
 			return;
-		} else {
-
-			if (password != null
-					&& password.length() > 0
-					&& newPassword != null
-					&& newPassword.length() > ServiceConstant.PARA_PASSWORD_MIN_LENGTH
-					&& user.getString(DBConstants.F_PASSWORD).equals(password)) {
-				user.put(DBConstants.F_PASSWORD, newPassword);
-				result = 0;
-			}
-
-			if (avatar != null && avatar.length() > 0) {
-				user.put(DBConstants.F_AVATAR, avatar);
-				result = 0;
-			}
-
-			if (nickName != null && nickName.length() > 0) {
-				user.put(DBConstants.F_NICKNAME, nickName);
-				result = 0;
-			}
-
-			if (result != 0) {
-				resultCode = ErrorCode.ERROR_UPDATE_USER_INFO_FAILED;
-			} else {
-				mongoClient.save(DBConstants.T_USER, (DBObject) user);
-				resultCode = 0;
-			}
-
 		}
+				
+		if (password != null && !password.isEmpty() && newPassword != null && !newPassword.isEmpty()){
+			if (newPassword.length() < ServiceConstant.PARA_PASSWORD_MIN_LENGTH){
+				resultCode = ErrorCode.ERROR_PASSWORD_NOT_VALID;
+				return;
+			}
+			
+			user.setPassword(newPassword);
+		}
+
+		if (nickName != null && nickName.length() > 0) {
+			user.setNickName(nickName);
+		}
+
+		mongoClient.save(DBConstants.T_USER, user.getDbObject());
+		log.info("<UpateUserService> update user ("+user.getUserId()+") successfully");
 	}
 }
