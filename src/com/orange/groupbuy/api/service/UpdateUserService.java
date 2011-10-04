@@ -3,6 +3,7 @@ package com.orange.groupbuy.api.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.mongodb.DBObject;
+import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
@@ -15,7 +16,6 @@ public class UpdateUserService extends CommonGroupBuyService {
 	String userId;
 	// information for update, all optinal
 	String password;
-	String newPassword;
 	String nickName;
 	String avatar;
 	
@@ -24,7 +24,6 @@ public class UpdateUserService extends CommonGroupBuyService {
 		userId = request.getParameter(ServiceConstant.PARA_USERID);
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
-		newPassword = request.getParameter(ServiceConstant.PARA_NEW_PASSWORD);
 		avatar = request.getParameter(ServiceConstant.PARA_AVATAR);
 		nickName = request.getParameter(ServiceConstant.PARA_NICKNAME);
 
@@ -37,6 +36,13 @@ public class UpdateUserService extends CommonGroupBuyService {
 			return false;
 
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "UpdateUserService [appId=" + appId + ", avatar=" + avatar
+				+ ", nickName=" + nickName + ", password=" + password
+				+ ", userId=" + userId + "]";
 	}
 
 	@Override
@@ -54,20 +60,15 @@ public class UpdateUserService extends CommonGroupBuyService {
 			return;
 		}
 				
-		if (password != null && !password.isEmpty() && newPassword != null && !newPassword.isEmpty()){
-			if (newPassword.length() < ServiceConstant.PARA_PASSWORD_MIN_LENGTH){
-				resultCode = ErrorCode.ERROR_PASSWORD_NOT_VALID;
-				return;
-			}
-			
-			user.setPassword(newPassword);
+		if (!StringUtil.isEmpty(password)){
+			user.setPassword(password);
 		}
 
-		if (nickName != null && nickName.length() > 0) {
+		if (!StringUtil.isEmpty(nickName)) {
 			user.setNickName(nickName);
 		}
 
-		mongoClient.save(DBConstants.T_USER, user.getDbObject());
+		UserManager.save(mongoClient, user);
 		log.info("<UpateUserService> update user ("+user.getUserId()+") successfully");
-	}
+	}	
 }

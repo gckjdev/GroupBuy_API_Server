@@ -17,13 +17,30 @@ import com.orange.groupbuy.dao.App;
 import com.orange.groupbuy.dao.Category;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ShoppingCategory;
+import com.orange.groupbuy.dao.User;
 
 public class CommonServiceUtils {
 
-	public static JSONObject userToJSON(DBObject user) {
+//	public static JSONObject userToJSON(DBObject user) {
+//		JSONObject obj = new JSONObject();
+//		obj.put(ServiceConstant.PARA_USERID, user.get(DBConstants.F_ID)
+//				.toString());
+//		return obj;
+//	}
+	
+	public static JSONObject userToJSON(User user) {
 		JSONObject obj = new JSONObject();
-		obj.put(ServiceConstant.PARA_USERID, user.get(DBConstants.F_ID)
-				.toString());
+		safePut(obj, ServiceConstant.PARA_USERID, user.getUserId());
+		safePut(obj, ServiceConstant.PARA_EMAIL, user.getEmail());
+		safePut(obj, ServiceConstant.PARA_NICKNAME, user.getNickName());
+		safePut(obj, ServiceConstant.PARA_AVATAR, user.getAvatar());
+		safePut(obj, ServiceConstant.PARA_QQ_ACCESS_TOKEN, user.getQQAccessToken());
+		safePut(obj, ServiceConstant.PARA_QQ_ACCESS_TOKEN_SECRET, user.getQQAccessTokenSecret());
+		safePut(obj, ServiceConstant.PARA_SINA_ACCESS_TOKEN, user.getSinaAccessToken());
+		safePut(obj, ServiceConstant.PARA_SINA_ACCESS_TOKEN_SECRET, user.getSinaAccessTokenSecret());
+		safePut(obj, ServiceConstant.PARA_PASSWORD, user.getPassword());
+		safePut(obj, ServiceConstant.PARA_SINA_ID, user.getSinaID());
+		safePut(obj, ServiceConstant.PARA_QQ_ID, user.getQQID());
 		return obj;
 	}
 

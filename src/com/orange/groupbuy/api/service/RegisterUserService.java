@@ -118,13 +118,13 @@ public class RegisterUserService extends CommonGroupBuyService {
 				return false;
 			break;
 		case ServiceConstant.REGISTER_TYPE_SINA:
-			snsId = request.getParameter(ServiceConstant.PARA_SINAID);
+			snsId = request.getParameter(ServiceConstant.PARA_SNSID);
 			if (!check(snsId, ErrorCode.ERROR_PARAMETER_SNSID_EMPTY,
 					ErrorCode.ERROR_PARAMETER_SNSID_NULL))
 				return false;
 			break;
 		case ServiceConstant.REGISTER_TYPE_QQ:
-			snsId = request.getParameter(ServiceConstant.PARA_QQID);
+			snsId = request.getParameter(ServiceConstant.PARA_SNSID);
 			if (!check(snsId, ErrorCode.ERROR_PARAMETER_SNSID_EMPTY,
 					ErrorCode.ERROR_PARAMETER_SNSID_NULL))
 				return false;
