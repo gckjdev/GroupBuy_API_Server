@@ -113,11 +113,11 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 			return new BindUserService();
 		}
 		
-		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_SEGMENTSERVICE)) {
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_SEGMENTTEXT)) {
 			return new SegmentService();
 		}
 		
-		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_COMPAREPRODUCT_SERVICE)) {
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_COMPAREPRODUCT)) {
 			return new CompareProductService();
 		} 
 

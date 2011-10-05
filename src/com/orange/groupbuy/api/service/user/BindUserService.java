@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.orange.common.mail.MailSender;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
+import com.orange.groupbuy.api.service.CommonServiceUtils;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
@@ -72,22 +73,10 @@ public class BindUserService extends CommonGroupBuyService {
 					sendVerification(user);
 				}
 				break;
-			case ServiceConstant.REGISTER_TYPE_SINA:
-				if(UserManager.findUserBySinaId(mongoClient, snsId) != null){
-					log.info("<registerSns> user ID ("+snsId+")exist");
-					resultCode = ErrorCode.ERROR_SNS_ID_EXIST;
-					return;
-				}
-				
+			case ServiceConstant.REGISTER_TYPE_SINA:				
 				UserManager.bindUserBySnsId(mongoClient, user, snsId, nickName, avatar, accessToken, accessTokenSecret, province, city, location, gender, birthday, domain, registerType);
 				break;
 			case ServiceConstant.REGISTER_TYPE_QQ:
-				if(UserManager.findUserByTencentId(mongoClient, snsId) != null){
-					log.info("<registerSns> user ID ("+snsId+")exist");
-					resultCode = ErrorCode.ERROR_SNS_ID_EXIST;
-					return;
-				}
-				
 				UserManager.bindUserBySnsId(mongoClient, user, snsId, nickName, avatar, accessToken, accessTokenSecret, province, city, location, gender, birthday, domain, registerType);
 				break;
 			default:
@@ -95,6 +84,8 @@ public class BindUserService extends CommonGroupBuyService {
 				break;
 		
 			} 
+			
+			resultData = CommonServiceUtils.userToJSON(user);
 		}
 	}
 
@@ -152,12 +143,12 @@ public class BindUserService extends CommonGroupBuyService {
 				return false;
 			break;
 		case ServiceConstant.REGISTER_TYPE_SINA:
-			snsId = request.getParameter(ServiceConstant.PARA_SINAID);			
+			snsId = request.getParameter(ServiceConstant.PARA_SNSID);			
 			if(!check(snsId, ErrorCode.ERROR_PARAMETER_SNSID_EMPTY, ErrorCode.ERROR_PARAMETER_SNSID_NULL))
 				return false;
 			break;
 		case ServiceConstant.REGISTER_TYPE_QQ:
-			snsId = request.getParameter(ServiceConstant.PARA_QQID);
+			snsId = request.getParameter(ServiceConstant.PARA_SNSID);
 			if(!check(snsId, ErrorCode.ERROR_PARAMETER_SNSID_EMPTY, ErrorCode.ERROR_PARAMETER_SNSID_NULL))
 				return false;			
 			break;

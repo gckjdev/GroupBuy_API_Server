@@ -108,7 +108,7 @@ public class SearchService extends CommonGroupBuyService {
 			hasLocation = true;
 			latitude = Double.parseDouble(latitudeStr);
 			longitude = Double.parseDouble(longitudeStr);
-			radius = Double.parseDouble(radiusStr) / 1000;
+			radius = Double.parseDouble(radiusStr);
 		}
 		
 		String todayOnlyStr = request.getParameter(ServiceConstant.PARA_TODAY_ONLY);

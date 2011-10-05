@@ -67,21 +67,21 @@ public class DeviceLoginService extends CommonGroupBuyService {
 
 	@Override
 	public void handleData() {		
-		DBObject user = UserManager.findUserByDeviceId(mongoClient, deviceId);
+		User user = UserManager.findUserByDeviceId(mongoClient, deviceId);
 		if (user == null){
 			log.info("<DeviceLogin> deviceId("+deviceId+") is not bind to any user");
 			resultCode = ErrorCode.ERROR_DEVICE_NOT_BIND;
 			return;
 		}
 		
-		String oldDeviceToken = (String)user.get(DBConstants.F_DEVICETOKEN);
-		String userId = ((ObjectId)user.get(DBConstants.F_ID)).toString();
+		String oldDeviceToken = user.getDeviceToken();
+		String userId = user.getUserId();
 		if (!StringUtil.isEmpty(deviceToken) && !deviceToken.equalsIgnoreCase(oldDeviceToken)){
 			
 			log.info("<DeviceLoginService> update device token " + deviceToken);
 			
-			user.put(DBConstants.F_DEVICETOKEN, deviceToken);
-			mongoClient.save(DBConstants.T_USER, user);
+			user.setDeviceToke(deviceToken);
+			UserManager.save(mongoClient, user);
 			
 			// TODO register device token for user
 			UserManager.registerUserDeviceToken(userId, deviceToken);

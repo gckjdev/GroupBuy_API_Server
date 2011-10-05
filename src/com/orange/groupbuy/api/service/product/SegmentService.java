@@ -34,7 +34,7 @@ public class SegmentService extends CommonGroupBuyService {
 
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
-		segment = request.getParameter(ServiceConstant.PARA_SEGMENT);
+		segment = request.getParameter(ServiceConstant.PARA_TEXT_CONTENT);
 		if (!check(segment, ErrorCode.ERROR_PARAMETER_SEGMENT_EMPTY, ErrorCode.ERROR_PARAMETER_SEGMENT_NULL)) {
 			return false;
 		}
