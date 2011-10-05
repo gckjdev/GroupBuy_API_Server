@@ -77,6 +77,7 @@ public class SegmentService extends CommonGroupBuyService {
 		stopwordsList.add("的");
 		stopwordsList.add("全国");
 		stopwordsList.add("抢购");
+		
 	}
 
 	protected Seg getSeg() {
@@ -103,7 +104,7 @@ public class SegmentService extends CommonGroupBuyService {
 		}
 		return sb.toString();
 	}
-	
+	 
 	public String segWords(String txt, String wordSpilt) throws IOException {
 		return segWords(new StringReader(txt), wordSpilt);
 	}
