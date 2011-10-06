@@ -54,7 +54,7 @@ public class FindProductService extends CommonGroupBuyService {
 		DBCursor cursor = ProductManager.getProductCursor(mongoClient, city, categoryList, 
 				todayOnly, gpsQuery, latitude, longitude, maxDistance, 
 				sortBy, startOffset, maxCount);
-		if (reCountStatus == 0) {
+		if (reCountStatus > 0) {
 			int reCnt = ProductManager.getCursorCount(cursor);
 			List<Product> productList = ProductManager.getProduct(cursor);
 			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
