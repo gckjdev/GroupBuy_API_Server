@@ -59,8 +59,8 @@ public class FindProductService extends CommonGroupBuyService {
 			List<Product> productList = ProductManager.getProduct(cursor);
 			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
 			JSONObject object = new JSONObject();
-			safePut(object, "list", productArray);
-			safePut(object, "count", reCnt);
+			safePut(object, ServiceConstant.PARA_LIST, productArray);
+			safePut(object, ServiceConstant.PARA_RETURN_COUNT, reCnt);
 			resultData = object;
 		} else {
 			List<Product> productList = ProductManager.getProduct(cursor); 	

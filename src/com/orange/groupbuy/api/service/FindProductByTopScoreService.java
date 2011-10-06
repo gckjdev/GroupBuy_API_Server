@@ -105,8 +105,8 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 			List<Product> productList = ProductManager.getProduct(cursor);
 			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
 			JSONObject object = new JSONObject();
-			safePut(object, "list", productArray);
-			safePut(object, "count", returnCnt);
+			safePut(object, ServiceConstant.PARA_LIST, productArray);
+			safePut(object, ServiceConstant.PARA_RETURN_COUNT, returnCnt);
 			resultData = object;	
 		}
 	}
