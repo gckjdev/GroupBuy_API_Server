@@ -4,6 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+//import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
+import com.mongodb.DBCursor;
+
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
@@ -25,6 +31,8 @@ public class FindProductService extends CommonGroupBuyService {
 	int sortBy = DBConstants.SORT_BY_START_DATE;	// mandantory, sort type for product
 	int startOffset = 0;							// optional
 	int maxCount = 30;								// optional
+	int reCountStatus = 0;                          // optional
+
 
 	boolean gpsQuery = false;						// internal usage
 	
@@ -37,17 +45,29 @@ public class FindProductService extends CommonGroupBuyService {
 				+ ", latitude=" + latitude + ", longitude=" + longitude
 				+ ", maxCount=" + maxCount + ", maxDistance=" + maxDistance
 				+ ", sortBy=" + sortBy + ", startOffset=" + startOffset
-				+ ", todayOnly=" + todayOnly + "]";
+				+ ", todayOnly=" + todayOnly + ", returnCount=" + reCountStatus + "]";
 	}
 
 	@Override
 	public void handleData() {
 		
-		List<Product> productList = ProductManager.getProducts(mongoClient, city, categoryList, 
+		DBCursor cursor = ProductManager.getProductCursor(mongoClient, city, categoryList, 
 				todayOnly, gpsQuery, latitude, longitude, maxDistance, 
 				sortBy, startOffset, maxCount);
+		if (reCountStatus == 0) {
+			int reCnt = ProductManager.getCursorCount(cursor);
+			List<Product> productList = ProductManager.getProduct(cursor);
+			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
+			JSONObject object = new JSONObject();
+			safePut(object, "list", productArray);
+			safePut(object, "count", reCnt);
+			resultData = object;
+		} else {
+			List<Product> productList = ProductManager.getProduct(cursor); 	
+			resultData = CommonServiceUtils.productListToJSONArray(productList);		
+		}
 		
-		resultData = CommonServiceUtils.productListToJSONArray(productList);		
+		
 	}
 
 	@Override
@@ -102,11 +122,20 @@ public class FindProductService extends CommonGroupBuyService {
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
-		}				
+		}		
 		
-		
+		String returnCountStr = request.getParameter(ServiceConstant.PARA_RETURN_COUNT); 
+		if (!StringUtil.isEmpty(returnCountStr)){
+			reCountStatus = Integer.parseInt(returnCountStr);
+		}		
 		
 		return true;
+	}
+	
+	private static void safePut(JSONObject object, String key, Object value) {
+		if (value == null)
+			return;
+		object.put(key, value);
 	}
 
 }

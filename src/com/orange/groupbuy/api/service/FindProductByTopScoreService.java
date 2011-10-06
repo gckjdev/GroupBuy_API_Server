@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.mongodb.DBCursor;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
@@ -19,6 +23,7 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	int startPrice = -100;
 	int endPrice = 99999999;
 	int category = -1;
+	int reCountStatus = 0;                          // optional
 	
 	@Override
 	public String toString() {
@@ -58,6 +63,12 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 			category = Integer.parseInt(categoryStr);
 		}	
 		
+		String returnCountStr = request.getParameter(ServiceConstant.PARA_RETURN_COUNT); 
+		if (!StringUtil.isEmpty(returnCountStr)){
+			reCountStatus = Integer.parseInt(returnCountStr);
+		}		
+		
+		
 		return true;
 	}
 
@@ -70,21 +81,40 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {
 		// TODO Auto-generated method stub
-		List<Product> productList = ProductManager.getTopScoreProducts(mongoClient, city, 
+		DBCursor cursor = ProductManager.getTopScoreProductCursor(mongoClient, city, 
 				category, startOffset, maxCount, startPrice, endPrice);
-		
-		if (productList == null || productList.size() == 0)
-			return;
-		
-		for (Product p : productList){
-			log.info("product id="+p.getId()+
-					", top score="+p.getTopScore()+
-					", title="+p.getTitle()+
-					", bought="+p.getBought()+
-					", startDate="+p.getStartDateString());
+		if (reCountStatus == 0) {
+
+			List<Product> productList = ProductManager.getProduct(cursor);
+			
+			if (productList == null || productList.size() == 0)
+				return;
+			
+			for (Product p : productList){
+				log.info("product id="+p.getId()+
+						", top score="+p.getTopScore()+
+						", title="+p.getTitle()+
+						", bought="+p.getBought()+
+						", startDate="+p.getStartDateString());
+			}
+			resultData = CommonServiceUtils.productListToJSONArray(productList);	
+			
+		} else {
+			
+			int returnCnt = ProductManager.getCursorCount(cursor);
+			List<Product> productList = ProductManager.getProduct(cursor);
+			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
+			JSONObject object = new JSONObject();
+			safePut(object, "list", productArray);
+			safePut(object, "count", returnCnt);
+			resultData = object;	
 		}
-		
-		resultData = CommonServiceUtils.productListToJSONArray(productList);	
+	}
+	
+	private static void safePut(JSONObject object, String key, Object value) {
+		if (value == null)
+			return;
+		object.put(key, value);
 	}
 
 }

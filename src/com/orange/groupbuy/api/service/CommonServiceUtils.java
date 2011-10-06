@@ -3,14 +3,11 @@ package com.orange.groupbuy.api.service;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jetty.util.log.Log;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.App;
@@ -76,8 +73,8 @@ public class CommonServiceUtils {
 			// product.getSiteId());
 			safePut(object, ServiceConstant.PARA_SITE_NAME,
 					product.getSiteName());
-			// safePut(object, ServiceConstant.PARA_SITE_URL,
-			// product.getSiteUrl());
+			 safePut(object, ServiceConstant.PARA_SITE_URL,
+			 product.getSiteUrl());
 			safePut(object, ServiceConstant.PARA_REBATE, product.getRebate());
 			safePut(object, ServiceConstant.PARA_GPS, product.getGPS());
 			safePut(object, ServiceConstant.PARA_ADDRESS, product.getAddress());
