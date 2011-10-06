@@ -16,6 +16,9 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
     private String appId;
     private String maxCount;            
     private String startOffset;
+    private String latitude;
+    private String longitude;
+    private String radius;
     private boolean requireMatch = false;
 
     @Override
@@ -30,6 +33,9 @@ public class FindProductByShoppingItemService extends CommonGroupBuyService {
         appId = request.getParameter(ServiceConstant.PARA_APPID);
         maxCount = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
         startOffset = request.getParameter(ServiceConstant.PRAR_START_OFFSET);
+        latitude = request.getParameter(ServiceConstant.PARA_LATITUDE);
+        longitude = request.getParameter(ServiceConstant.PARA_LONGITUDE);
+        radius = request.getParameter(ServiceConstant.PARA_RADIUS);
         String str_requireMatch = request.getParameter(ServiceConstant.PARA_REQUIRE_MATCH);
         if(str_requireMatch != null && str_requireMatch.equals(ServiceConstant.NEED_REQURIE_MATCH)) {
             requireMatch = true;
