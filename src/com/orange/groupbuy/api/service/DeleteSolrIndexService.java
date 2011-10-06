@@ -16,7 +16,7 @@ public class DeleteSolrIndexService extends CommonGroupBuyService {
 	String query;
 	String startDateString;
 	String endDateString;
-	
+	// 删除所有的索引请用：http://localhost:8000/api/i?m=deletesolr&q=*:*
 	// http://localhost:8000/api/i?m=deletesolr&q=s_id:meituan AND city:北京&sd=20110824000000&ed=20110824000000
 	
 	

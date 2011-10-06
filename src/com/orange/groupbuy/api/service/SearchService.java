@@ -4,6 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.solr.common.SolrDocumentList;
+
 import com.orange.common.solr.SolrClient;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
@@ -30,17 +35,18 @@ public class SearchService extends CommonGroupBuyService {
 	Double latitude;								// optional, only for record user search history
 	Double longitude;								// optional, only for record user search history
 	boolean hasLocation = false;					// internal usage
-	Double radius;
+	Double radius;									// optional
+	int reCountStatus = 0;                          // optional
 		
 	@Override
 	public String toString() {
-		return "SearchService [appId=" + appId + ", categoryList="
-				+ categoryList + ", city=" + city + ", hasLocation="
-				+ hasLocation + ", keyword=" + keyword + ", latitude="
-				+ latitude + ", longitude=" + longitude + ", radius="
-				+ radius + ", maxCount="
-				+ maxCount + ", startOffset=" + startOffset + ", todayOnly="
-				+ todayOnly + ", deviceId=" + deviceId + "]";
+		return "SearchService [deviceId=" + deviceId + ", appId=" + appId
+				+ ", city=" + city + ", todayOnly=" + todayOnly
+				+ ", categoryList=" + categoryList + ", startOffset="
+				+ startOffset + ", maxCount=" + maxCount + ", keyword="
+				+ keyword + ", latitude=" + latitude + ", longitude="
+				+ longitude + ", hasLocation=" + hasLocation + ", radius="
+				+ radius + ", reCountStatus=" + reCountStatus + "]";
 	}
 
 	@Override
@@ -57,31 +63,35 @@ public class SearchService extends CommonGroupBuyService {
 		
 		HotKeyword hotKeyword = KeywordManager.findHotKeyword(mongoClient, keyword);
 		List<Product> productList = null;
-		if (hotKeyword == null){	
-//			productList = ProductManager.searchProductByMongoDB(mongoClient, city, categoryList, todayOnly, keywords, startOffset, maxCount);
-			if (hasLocation) {
-				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-						todayOnly, keyword, latitude, longitude, radius, startOffset, maxCount);
-			} else {
-				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-						todayOnly, keyword, null, null, null, startOffset, maxCount);
-			}
-			
-			
-		}
-		else{
-			String queryString = hotKeyword.getQueryString();
-			if (hasLocation) {
-				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-						todayOnly, queryString, latitude, longitude, radius, startOffset, maxCount);		
-			} else {
-				productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
-						todayOnly, queryString, null, null, null, startOffset, maxCount);		
-			}
-				
-		}
 		
-		resultData = CommonServiceUtils.productListToJSONArray(productList);		
+		String queryStr = "";
+		if (hotKeyword == null) {	
+			queryStr = keyword;
+		} else {
+			queryStr = hotKeyword.getQueryString();
+		}
+		if (!hasLocation) {
+			latitude = null;
+			longitude = null;
+			radius = null;
+		} 
+		
+		SolrDocumentList resultList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+				todayOnly, queryStr, null, latitude, longitude, radius, startOffset, maxCount);
+		
+		if (reCountStatus == 0) {
+			productList = ProductManager.getResultList(resultList, mongoClient);
+			resultData = CommonServiceUtils.productListToJSONArray(productList);	
+		} else {
+			long resultCnt = ProductManager.getResultCnt(resultList);
+			productList = ProductManager.getResultList(resultList, mongoClient);
+			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
+			JSONObject object = new JSONObject();
+			safePut(object, "list", productArray);
+			safePut(object, "count", resultCnt);
+			resultData = object;
+		}		
+			
 	}
 
 	@Override
@@ -134,7 +144,18 @@ public class SearchService extends CommonGroupBuyService {
 			return false;
 		}				
 		
+		String returnCountStr = request.getParameter(ServiceConstant.PARA_RETURN_COUNT); 
+		if (!StringUtil.isEmpty(returnCountStr)){
+			reCountStatus = Integer.parseInt(returnCountStr);
+		}
+		
 		return true;
+	}
+	
+	private static void safePut(JSONObject object, String key, Object value) {
+		if (value == null)
+			return;
+		object.put(key, value);
 	}
 
 }
