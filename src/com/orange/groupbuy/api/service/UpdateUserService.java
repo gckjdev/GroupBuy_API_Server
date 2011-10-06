@@ -18,6 +18,8 @@ public class UpdateUserService extends CommonGroupBuyService {
 	String password;
 	String nickName;
 	String avatar;
+	String deviceId;
+	String deviceToken;	
 	
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
@@ -26,24 +28,27 @@ public class UpdateUserService extends CommonGroupBuyService {
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
 		avatar = request.getParameter(ServiceConstant.PARA_AVATAR);
 		nickName = request.getParameter(ServiceConstant.PARA_NICKNAME);
+		deviceId = request.getParameter(ServiceConstant.PARA_DEVICEID);
+		deviceToken = request.getParameter(ServiceConstant.PARA_DEVICETOKEN);
 
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL))
 			return false;
 
-		if (!check(userId, ErrorCode.ERROR_PARAMETER_USERID_EMPTY,
-				ErrorCode.ERROR_PARAMETER_USERID_NULL))
-			return false;
-
 		return true;
 	}
+
+
 
 	@Override
 	public String toString() {
 		return "UpdateUserService [appId=" + appId + ", avatar=" + avatar
+				+ ", deviceId=" + deviceId + ", deviceToken=" + deviceToken
 				+ ", nickName=" + nickName + ", password=" + password
 				+ ", userId=" + userId + "]";
 	}
+
+
 
 	@Override
 	public boolean needSecurityCheck() {
@@ -54,18 +59,30 @@ public class UpdateUserService extends CommonGroupBuyService {
 	public void handleData() {
 
 		User user = UserManager.findUserByUserId(mongoClient, userId);
+		if (user == null && !StringUtil.isEmpty(deviceId)){
+			user = UserManager.findUserByDeviceId(mongoClient, deviceId);
+		}
+				
 		if (user == null) {
 			log.info("<UpateUserService> cannot find user:" + userId);
 			resultCode = ErrorCode.ERROR_USERID_NOT_FOUND;
 			return;
 		}
-				
+
 		if (!StringUtil.isEmpty(password)){
 			user.setPassword(password);
 		}
 
 		if (!StringUtil.isEmpty(nickName)) {
 			user.setNickName(nickName);
+		}
+		
+		if (!StringUtil.isEmpty(deviceId)){
+			user.setDeviceId(deviceId);
+		}
+		
+		if (!StringUtil.isEmpty(deviceToken)){
+			user.setDeviceToke(deviceToken);
 		}
 
 		UserManager.save(mongoClient, user);
