@@ -38,6 +38,8 @@ public class RegisterUserService extends CommonGroupBuyService {
 	String gender;
 	String birthday;
 	String domain;
+	
+	String deviceToken;
 
 	@Override
 	public String toString() {
@@ -68,7 +70,6 @@ public class RegisterUserService extends CommonGroupBuyService {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		strRegisterType = request
 				.getParameter(ServiceConstant.PARA_REGISTER_TYPE);
-		registerType = Integer.parseInt(strRegisterType);
 
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
@@ -86,6 +87,8 @@ public class RegisterUserService extends CommonGroupBuyService {
 		gender = request.getParameter(ServiceConstant.PARA_GENDER);
 		birthday = request.getParameter(ServiceConstant.PARA_BIRTHDAY);
 		domain = request.getParameter(ServiceConstant.PARA_DOMAIN);
+		
+		deviceToken = request.getParameter(ServiceConstant.PARA_DEVICETOKEN);
 
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL))
@@ -95,7 +98,8 @@ public class RegisterUserService extends CommonGroupBuyService {
 				ErrorCode.ERROR_PARAMETER_REGISTER_TYPE_EMPTY,
 				ErrorCode.ERROR_PARAMETER_REGISTER_TYPE_NULL))
 			return false;
-
+		
+		registerType = Integer.parseInt(strRegisterType);
 		switch (registerType) {
 		case ServiceConstant.REGISTER_TYPE_EMAIL:
 			if (Str_NeedVerificaton != null
@@ -157,7 +161,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 			}
 
 			user = UserManager.createUserByEmail(mongoClient, appId, email,
-					password, needVerification);
+					password, deviceToken, needVerification);
 
 			break;
 		case ServiceConstant.REGISTER_TYPE_SINA:
@@ -169,7 +173,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 
 			user = UserManager.createUserBySnsId(mongoClient, appId, snsId,
 					nickName, avatar, accessToken, accessTokenSecret, province,
-					city, location, gender, birthday, domain, registerType);
+					city, location, gender, birthday, domain, deviceToken, registerType);
 			break;
 		case ServiceConstant.REGISTER_TYPE_QQ:
 			if (UserManager.findUserByTencentId(mongoClient, snsId) != null) {
@@ -180,7 +184,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 
 			user = UserManager.createUserBySnsId(mongoClient, appId, snsId,
 					nickName, avatar, accessToken, accessTokenSecret, province,
-					city, location, gender, birthday, domain, registerType);
+					city, location, gender, birthday, domain, deviceToken, registerType);
 			break;
 		default:
 			break;
@@ -188,7 +192,7 @@ public class RegisterUserService extends CommonGroupBuyService {
 
 		if (user == null) {
 			resultCode = ErrorCode.ERROR_CREATE_USER;
-			log.info("<registerEmail> fail to create user");
+			log.info("<RegisterUserService> fail to create user");
 			return;
 		} else {
 			log.info("<RegisterUserService> user=" + user.toString());

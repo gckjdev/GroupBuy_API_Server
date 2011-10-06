@@ -10,6 +10,7 @@ import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.User;
 import com.orange.groupbuy.manager.UserManager;
 
 public class LoginUserService extends CommonGroupBuyService {
@@ -17,12 +18,14 @@ public class LoginUserService extends CommonGroupBuyService {
 	String appId;	
 	String email;
 	String password;
+	String deviceToken;
 
 	@Override
 	public boolean setDataFromRequest(HttpServletRequest request) {
 		appId = request.getParameter(ServiceConstant.PARA_APPID);
 		email = request.getParameter(ServiceConstant.PARA_EMAIL);
 		password = request.getParameter(ServiceConstant.PARA_PASSWORD);
+		deviceToken = request.getParameter(ServiceConstant.PARA_DEVICETOKEN);
 		
 		if (!StringUtil.isValidMail(email)){
 			log.info("<LoginUser> user email("+email+") not valid");
@@ -47,15 +50,15 @@ public class LoginUserService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {
 		
-		BasicDBObject user = (BasicDBObject) UserManager.findUserByEmail(mongoClient, email);
+		User user = UserManager.findUserByEmail(mongoClient, email);
 		
 		if (user == null){
 			resultCode = ErrorCode.ERROR_USER_EMAIL_NOT_FOUND;
-			log.info("<loginUser> user not found");
+			log.info("<loginUser> user email " + email + " not found");
 			return;
 		} 
 		else if(user.getString(DBConstants.F_PASSWORD).equals(password)){
-			log.info("<LoginUserService> user="+user.toString());	
+			log.info("<LoginUserService> user found user ="+user.toString());	
 		}
 		else{
 			resultCode = ErrorCode.ERROR_PASSWORD_NOT_MATCH;
@@ -63,13 +66,14 @@ public class LoginUserService extends CommonGroupBuyService {
 			return;
 		}
 		
-		String userId = user.getString(MongoDBClient.ID);
+		if (deviceToken != null){
+			log.info("<loginUser> save device token " + deviceToken + " for user " + 
+					user.getUserId());
+			user.setDeviceToke(deviceToken);
+			UserManager.save(mongoClient, user);
+		}
 		
-		// set result data, return userId
-		JSONObject obj = new JSONObject();
-		obj.put(ServiceConstant.PARA_USERID, userId);
-		resultData = obj;
-		
+		resultData = CommonServiceUtils.userToJSON(user);		
 	}
 
 }
