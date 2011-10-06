@@ -76,7 +76,7 @@ public class SearchService extends CommonGroupBuyService {
 			radius = null;
 		} 
 		
-		SolrDocumentList resultList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
+		SolrDocumentList resultList = ProductManager.getResultListBySolr(SolrClient.getInstance(), mongoClient, city, categoryList, 
 				todayOnly, queryStr, null, latitude, longitude, radius, startOffset, maxCount);
 		
 		if (reCountStatus == 0) {
