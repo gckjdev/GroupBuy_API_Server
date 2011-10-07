@@ -87,8 +87,8 @@ public class SearchService extends CommonGroupBuyService {
 			productList = ProductManager.getResultList(resultList, mongoClient);
 			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
 			JSONObject object = new JSONObject();
-			safePut(object, "list", productArray);
-			safePut(object, "count", resultCnt);
+			safePut(object, ServiceConstant.PARA_LIST, productArray);
+			safePut(object, ServiceConstant.PARA_RETURN_COUNT, resultCnt);
 			resultData = object;
 		}		
 			
