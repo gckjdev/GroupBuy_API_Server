@@ -41,6 +41,10 @@ public class GroupBuyApiServer extends CommonApiServer {
 	
 	@Override
 	public int getPort() {
+		String port = System.getProperty("server.port");
+		if (port != null && !port.isEmpty()){
+			return Integer.parseInt(port);
+		}
 		return 8000;
 	}
 	
