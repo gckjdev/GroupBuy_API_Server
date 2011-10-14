@@ -50,7 +50,7 @@ public class GroupBuyApiServer extends CommonApiServer {
 	
     public static void main(String[] args) throws Exception{
     	GroupBuyApiServer server = new GroupBuyApiServer();
-    	startServer(server);
+		server.startServer();
     }
 
 
