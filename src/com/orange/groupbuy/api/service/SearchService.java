@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.cassandra.db.marshal.LongType;
 import org.apache.solr.common.SolrDocumentList;
 
 import com.orange.common.solr.SolrClient;
@@ -85,10 +86,14 @@ public class SearchService extends CommonGroupBuyService {
 		} else {
 			long resultCnt = ProductManager.getResultCnt(resultList);
 			productList = ProductManager.getResultList(resultList, mongoClient);
+			int deltCnt = ProductManager.getDeltCnt();
+			long realCnt = 0;
+			if (resultCnt >= deltCnt)
+				realCnt = resultCnt - deltCnt;
 			JSONArray productArray = CommonServiceUtils.productListToJSONArray(productList);
 			JSONObject object = new JSONObject();
 			safePut(object, ServiceConstant.PARA_LIST, productArray);
-			safePut(object, ServiceConstant.PARA_RETURN_COUNT, resultCnt);
+			safePut(object, ServiceConstant.PARA_RETURN_COUNT, realCnt);
 			resultData = object;
 		}		
 			
