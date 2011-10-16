@@ -66,6 +66,7 @@ public class FindProductService extends CommonGroupBuyService {
 			List<Product> productList = ProductManager.getProduct(cursor); 	
 			resultData = CommonServiceUtils.productListToJSONArray(productList);		
 		}
+		
 	}
 
 	@Override
