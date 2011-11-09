@@ -2,11 +2,11 @@
 <project>
 	<repositories>
 			<!-- <url>http://localhost:8081/nexus/content/groups/public</url> -->
- <!-- 		<repository>
+  		<repository>
 			<id>nexus</id>
 			<name>local nexus</name>
 			<url>http://192.168.1.101:8091/nexus/content/groups/public</url>
-		</repository> -->
+		</repository>
 		<repository>
 			<id>repo1 central</id>
 			<name>Maven Central Repo1</name>
