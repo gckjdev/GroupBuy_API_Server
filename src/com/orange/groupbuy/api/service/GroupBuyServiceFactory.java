@@ -14,6 +14,8 @@ import com.orange.groupbuy.api.service.user.GetUserShoppingItemListService;
 import com.orange.groupbuy.api.service.user.UpdateUserShoppingItemService;
 import com.orange.groupbuy.constant.ServiceConstant;
 
+import download.findAllSiteService;
+
 public class GroupBuyServiceFactory extends CommonServiceFactory {
 
 	@Override
@@ -120,6 +122,10 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_COMPAREPRODUCT)) {
 			return new CompareProductService();
 		} 
+		
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDTOPSITES)){
+			return new findAllSiteService();
+		}
 
 		else
 			return null;

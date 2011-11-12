@@ -14,6 +14,7 @@ import com.orange.groupbuy.dao.App;
 import com.orange.groupbuy.dao.Category;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ShoppingCategory;
+import com.orange.groupbuy.dao.Site;
 import com.orange.groupbuy.dao.User;
 
 public class CommonServiceUtils {
@@ -48,6 +49,28 @@ public class CommonServiceUtils {
 		object.put(key, value);
 	}
 
+	public static JSONObject siteListToJSONObject(List<Site> siteList) {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		for (Site site : siteList) {
+			JSONObject object = new JSONObject();
+			safePut(object, ServiceConstant.PARA_SITE_ID, site.getStringObjectId());
+			safePut(object, ServiceConstant.PARA_SITE_URL, site.getSiteURL());
+			safePut(object, ServiceConstant.PARA_FILE_TYPE, site.getFileType());
+			safePut(object, ServiceConstant.PARA_TYPE, site.getType());
+			safePut(object, ServiceConstant.PARA_SITE_NAME, site.getName());
+			safePut(object, ServiceConstant.PARA_DOWNLOAD_COUNT, site.getDownloadCount());			
+			safePut(object, ServiceConstant.PARA_COUNTRYCODE, site.getCountryCode());			
+			
+			jsonArray.add(object);
+		}
+		
+		jsonObject.put(ServiceConstant.PARA_DATA, jsonArray);
+		jsonObject.put(ServiceConstant.PARA_DATA_COUNT, siteList.size());
+		
+		return jsonObject;
+	}
+	
 	public static JSONArray productListToJSONArray(List<Product> products) {
 
 		if (products == null)
