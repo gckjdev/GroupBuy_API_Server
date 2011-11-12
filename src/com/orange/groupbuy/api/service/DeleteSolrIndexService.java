@@ -60,7 +60,7 @@ public class DeleteSolrIndexService extends CommonGroupBuyService {
 			}
 			server.commit();
 		} catch (Exception e) {
-			e.printStackTrace(); //TODO
+			log.error("delete solr index but catch exception = "+e.toString(), e);
 		}
 
 	}
