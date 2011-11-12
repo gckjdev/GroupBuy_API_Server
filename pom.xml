@@ -2,6 +2,13 @@
 <project>
 	<repositories>
 			<!-- <url>http://localhost:8081/nexus/content/groups/public</url> -->
+			<!-- 
+  		<repository>
+			<id>nexus</id>
+			<name>local nexus</name>
+			<url>http://localhost:8091/nexus/content/groups/public</url>
+		</repository>
+		 -->
   		<repository>
 			<id>nexus</id>
 			<name>local nexus</name>
@@ -243,7 +250,7 @@
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>./lib/</classpathPrefix>
 							<mainClass>
-								com.orange.groupbuy.api.GroupBuyApiServer
+								com.orange.groupbuy.api.GroupBuyAllInOneServer
 							</mainClass>
 						</manifest>
 					</archive>

@@ -1,8 +1,12 @@
 package com.orange.groupbuy.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.orange.common.api.CommonApiServer;
@@ -61,15 +65,44 @@ public class GroupBuyAllInOneServer extends CommonApiServer {
 	 */
 	@Override
 	public Handler getHandler() {
-		WebAppContext webapp = new WebAppContext();
-		webapp.setContextPath("/groupbuy");
-		webapp.setWar("GroupBuy_Web_UI-1.0-SNAPSHOT.war");
 
-		ContextHandler serviceHandler = new ContextHandler("/api");
-		serviceHandler.setHandler(this);
+		List<Handler> handlers = new ArrayList<Handler>();
+		String webWar = System.getProperty("web.server.war");
+		String webContext = System.getProperty("web.server.context");
+		if (webContext != null && webWar != null) {
+			WebAppContext webapp = new WebAppContext();
+			webapp.setContextPath(webContext);
+			webapp.setWar(webWar);
+			handlers.add(webapp);
+		}
 
+		String locationContext = System.getProperty("location.server.context");
+		String locationWar = System.getProperty("location.server.war");
+		if (locationContext != null && locationWar != null) {
+			WebAppContext locationApp = new WebAppContext();
+			locationApp.setContextPath(locationContext);
+			locationApp.setWar(locationWar);
+			handlers.add(locationApp);
+		}
+
+		String uploadContext = System.getProperty("upload.server.context");
+		String uploadResourceBase = System.getProperty("upload.resourcebase");
+
+		if (uploadContext != null && uploadResourceBase != null) {
+			ContextHandler uploadHandler = new ContextHandler(uploadContext);// upload
+			ResourceHandler resource_handler = new ResourceHandler();
+			resource_handler.setDirectoriesListed(true);
+			resource_handler.setResourceBase(uploadResourceBase);// ./upload
+			uploadHandler.setHandler(resource_handler);
+			handlers.add(uploadHandler);
+		}
+
+		ContextHandler apiHandler = new ContextHandler("/api");
+		apiHandler.setHandler(this);
+		handlers.add(apiHandler);
+		// contexts.addHandler(serviceHandler);
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
-		contexts.setHandlers(new Handler[] { serviceHandler, webapp });
+		contexts.setHandlers(handlers.toArray(new Handler[handlers.size()]));
 		return contexts;
 	}
 
