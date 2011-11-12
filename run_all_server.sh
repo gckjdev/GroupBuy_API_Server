@@ -1,0 +1,1 @@
+nohup java -jar -Dupload.server.context=/upload -Dupload.resourcebase=./upload/ -Dweb.server.context=/ -Dweb.server.war=GroupBuy_Web_UI-1.0-SNAPSHOT.war GroupBuy_API_Server-1.0-SNAPSHOT.jar > ./api_server.log &
