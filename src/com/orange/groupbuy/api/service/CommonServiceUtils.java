@@ -60,7 +60,7 @@ public class CommonServiceUtils {
 			safePut(object, ServiceConstant.PARA_TYPE, site.getType());
 			safePut(object, ServiceConstant.PARA_SITE_NAME, site.getName());
 			safePut(object, ServiceConstant.PARA_DOWNLOAD_COUNT, site.getDownloadCount());			
-			safePut(object, ServiceConstant.PARA_COUNTRYCODE, site.getCountryCode());			
+			safePut(object, ServiceConstant.PARA_COUNTRYCODE, site.getCountryCode());	
 			
 			jsonArray.add(object);
 		}
