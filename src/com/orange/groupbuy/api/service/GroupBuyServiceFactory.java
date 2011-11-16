@@ -14,6 +14,7 @@ import com.orange.groupbuy.api.service.user.GetUserShoppingItemListService;
 import com.orange.groupbuy.api.service.user.UpdateUserShoppingItemService;
 import com.orange.groupbuy.constant.ServiceConstant;
 
+import download.FindTopDownloadItemService;
 import download.ReportDownloadService;
 import download.findAllSiteService;
 
@@ -129,7 +130,10 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		}
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_REPORTDOWNLOAD)){
 			return new ReportDownloadService();
-		}		
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDTOPDOWNLOADS)){
+			return new FindTopDownloadItemService();
+		}
 		else
 			return null;
 	}
