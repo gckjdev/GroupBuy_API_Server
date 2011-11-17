@@ -2,6 +2,8 @@ package com.orange.groupbuy.api.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.orange.common.utils.StringUtil;
+import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.App;
@@ -11,9 +13,8 @@ public class UpdateKeywordService extends CommonGroupBuyService {
 
 	String appId;
 	String userId;
-
-	
-	
+	int type = DBConstants.KEYWORD_TYPE_DEFAULT;
+		
 	@Override
 	public String toString() {
 		return "UpdateKeywordService [appId=" + appId + ", uid=" + userId + "]";
@@ -26,8 +27,8 @@ public class UpdateKeywordService extends CommonGroupBuyService {
 			log.info("<AppUpdateService>: fail to find update information,appId="
 							+ appId);
 			return;
-		}
-		resultData = CommonServiceUtils.appKeywordToJSON(app);
+		} 
+		resultData = CommonServiceUtils.appKeywordToJSON(app, type);
 
 	}
 
@@ -44,6 +45,11 @@ public class UpdateKeywordService extends CommonGroupBuyService {
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL)) {
 			return false;
+		}
+		
+		String typeStr = request.getParameter(ServiceConstant.PARA_TYPE);
+		if (!StringUtil.isEmpty(typeStr)){
+			type = Integer.parseInt(typeStr);
 		}
 
 		return true;

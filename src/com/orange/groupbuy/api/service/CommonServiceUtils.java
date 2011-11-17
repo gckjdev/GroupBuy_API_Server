@@ -144,9 +144,9 @@ public class CommonServiceUtils {
 		return obj;
 	}
 
-	public static Object appKeywordToJSON(App app) {
+	public static Object appKeywordToJSON(App app, int type) {
 
-		List<String> keywordList = app.getAppKeywordList();
+		List<String> keywordList = app.getAppKeywordList(type);
 		if (keywordList == null)
 			return null;
 
