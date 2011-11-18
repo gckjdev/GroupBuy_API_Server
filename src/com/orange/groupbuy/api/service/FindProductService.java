@@ -39,7 +39,7 @@ public class FindProductService extends CommonGroupBuyService {
 	
 	
 	
-	@Override
+	@Override 
 	public String toString() {
 		return "FindProductService [appId=" + appId + ", categoryList="
 				+ categoryList + ", city=" + city + ", gpsQuery=" + gpsQuery
