@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<repositories>
-			<!-- <url>http://localhost:8081/nexus/content/groups/public</url> -->
-			<!-- 
-  		<repository>
-			<id>nexus</id>
+<!-- 		<repository>
+			<id>local-nexus</id>
 			<name>local nexus</name>
 			<url>http://localhost:8091/nexus/content/groups/public</url>
-		</repository>
-		 -->
-  		<repository>
+		</repository> -->
+		<repository>
 			<id>nexus</id>
 			<name>local nexus</name>
 			<url>http://192.168.1.101:8091/nexus/content/groups/public</url>
@@ -114,7 +111,7 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
 			<version>${jettyVersion}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
@@ -234,7 +231,7 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -250,7 +247,7 @@
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>./lib/</classpathPrefix>
 							<mainClass>
-								com.orange.groupbuy.api.GroupBuyAllInOneServer
+								com.orange.groupbuy.api.GroupBuyConfigServer
 							</mainClass>
 						</manifest>
 					</archive>
@@ -272,6 +269,51 @@
 							<outputDirectory>
 								target/lib
 							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>copy-jetty-config</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<!-- this is important -->
+							<overwrite>true</overwrite>
+							<!-- target -->
+							<outputDirectory>target/etc</outputDirectory>
+							<resources>
+								<resource>
+									<!-- source -->
+									<directory>etc</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-upload-resource</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<!-- this is important -->
+							<overwrite>true</overwrite>
+							<!-- target -->
+							<outputDirectory>target/upload</outputDirectory>
+							<resources>
+								<resource>
+									<!-- source -->
+									<directory>upload</directory>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
