@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 
 import com.mongodb.DBCursor;
 import com.orange.common.utils.StringUtil;
+import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Product;
@@ -23,14 +24,19 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	int startPrice = -100;
 	int endPrice = 99999999;
 	int category = -1;
+	int minCategory = -1;
+	int maxCategory = -1;
 	int reCountStatus = 0;                          // optional
+	
 	
 	@Override
 	public String toString() {
-		return "FindProductByTopScoreService [appId=" + appId + ", city="
-				+ city + ", maxCount=" + maxCount + ", startOffset="
-				+ startOffset + ", startPrice=" + startPrice + ", endPrice="
-				+ endPrice + ", category=" + category + "]";
+		return "FindProductByTopScoreService [appId=" + appId + ", category="
+				+ category + ", city=" + city + ", endPrice=" + endPrice
+				+ ", maxCategory=" + maxCategory + ", maxCount=" + maxCount
+				+ ", minCategory=" + minCategory + ", reCountStatus="
+				+ reCountStatus + ", startOffset=" + startOffset
+				+ ", startPrice=" + startPrice + "]";
 	}
 
 	@Override
@@ -50,6 +56,7 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		}	
 	    city= request.getParameter(ServiceConstant.PARA_CITY);
 		
+	    // parse start price and end price
 	    String startPriceStr = request.getParameter(ServiceConstant.PARA_START_PRICE);
 		if (!StringUtil.isEmpty(startPriceStr)){
 			startPrice = Integer.parseInt(startPriceStr);
@@ -58,16 +65,29 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		if (!StringUtil.isEmpty(endPriceStr)){
 			endPrice = Integer.parseInt(endPriceStr);
 		}	
+		
+		// parse category
 		String categoryStr = request.getParameter(ServiceConstant.PARA_CATEGORIES);
 		if (!StringUtil.isEmpty(categoryStr)){
 			category = Integer.parseInt(categoryStr);
-		}	
+
+			// set Taobao Miaosha and Zhekou range
+			if (category == DBConstants.C_CATEGORY_TAOBAO_MIAOSHA){
+				category = -1;
+				minCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MIN;
+				maxCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MAX;
+			}
+			else if (category == DBConstants.C_CATEGORY_TAOBAO_ZHEKOU){
+				category = -1;
+				minCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MIN;
+				maxCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MAX;
+			}
+		}			
 		
 		String returnCountStr = request.getParameter(ServiceConstant.PARA_RETURN_COUNT); 
 		if (!StringUtil.isEmpty(returnCountStr)){
 			reCountStatus = Integer.parseInt(returnCountStr);
-		}		
-		
+		}				
 		
 		return true;
 	}
@@ -79,10 +99,9 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	}
 
 	@Override
-	public void handleData() {
-		// TODO Auto-generated method stub
+	public void handleData() {				
 		DBCursor cursor = ProductManager.getTopScoreProductCursor(mongoClient, city, 
-				category, startOffset, maxCount, startPrice, endPrice);
+				category, startOffset, maxCount, startPrice, endPrice, minCategory, maxCategory);
 		if (reCountStatus == 0) {
 
 			List<Product> productList = ProductManager.getProduct(cursor);

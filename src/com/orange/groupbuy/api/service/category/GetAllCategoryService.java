@@ -9,8 +9,10 @@ import net.sf.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.api.service.CommonGroupBuyService;
 import com.orange.groupbuy.api.service.CommonServiceUtils;
+import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Category;
@@ -22,6 +24,9 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 	String appId;
 	String city;
 	List<String> categoryList;
+	int categoryType = DBConstants.UNDEFINE;
+	
+	
 	
 	// example request
 	// http://localhost:8000/api/i?m=gac&app=GROUPBUY
@@ -32,7 +37,7 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 	
 	@Override
 	public void handleData() {
-		List<Category> categoryList = CategoryManager.findAllCategory(mongoClient);
+		List<Category> categoryList = CategoryManager.findAllCategoryByType(mongoClient, categoryType);
 		if (categoryList != null && categoryList.size() > 0){			
 			//JSONArray jsonArray = CommonServiceUtils.categoryListToJSONArray(categoryList);
 			JSONArray jsonArray = new JSONArray();
@@ -57,7 +62,8 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 	@Override
 	public String toString() {
 		return "GetAllCategoryService [appId=" + appId + ", categoryList="
-				+ categoryList + ", city=" + city + "]";
+				+ categoryList + ", categoryType=" + categoryType + ", city="
+				+ city + "]";
 	}
 
 	@Override
@@ -72,6 +78,11 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 		if (!check(appId, ErrorCode.ERROR_PARAMETER_APPID_EMPTY,
 				ErrorCode.ERROR_PARAMETER_APPID_NULL))
 			return false;	
+		
+		String categoryTypeStr = request.getParameter(ServiceConstant.PARA_TYPE);
+		if (!StringUtil.isEmpty(categoryTypeStr)){
+			categoryType = Integer.parseInt(categoryTypeStr);
+		}
 		
 		city= request.getParameter(ServiceConstant.PARA_CITY);	
 		return true;

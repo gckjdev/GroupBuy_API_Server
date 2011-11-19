@@ -32,13 +32,14 @@ public class FindProductService extends CommonGroupBuyService {
 	int startOffset = 0;							// optional
 	int maxCount = 30;								// optional
 	int reCountStatus = 0;                          // optional
-
+	int minCategory = -1;
+	int maxCategory = -1;
 
 	boolean gpsQuery = false;						// internal usage
 	
 	
 	
-	@Override
+	@Override 
 	public String toString() {
 		return "FindProductService [appId=" + appId + ", categoryList="
 				+ categoryList + ", city=" + city + ", gpsQuery=" + gpsQuery
@@ -51,7 +52,8 @@ public class FindProductService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {
 		
-		DBCursor cursor = ProductManager.getProductCursor(mongoClient, city, categoryList, 
+		DBCursor cursor = ProductManager.getProductCursor(mongoClient, city, 
+				categoryList,minCategory, maxCategory, 				
 				todayOnly, gpsQuery, latitude, longitude, maxDistance, 
 				sortBy, startOffset, maxCount);
 		if (reCountStatus > 0) {
@@ -102,6 +104,21 @@ public class FindProductService extends CommonGroupBuyService {
 		
 		String categoryStr = request.getParameter(ServiceConstant.PARA_CATEGORIES);
 		categoryList = UrlUtil.parserUrlIntArray(categoryStr);
+		if (categoryList.size() == 1){
+			int category = categoryList.get(0).intValue();
+			
+			// set Taobao Miaosha and Zhekou range
+			if (category == DBConstants.C_CATEGORY_TAOBAO_MIAOSHA){
+				category = -1;
+				minCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MIN;
+				maxCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MAX;
+			}
+			else if (category == DBConstants.C_CATEGORY_TAOBAO_ZHEKOU){
+				category = -1;
+				minCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MIN;
+				maxCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MAX;
+			}
+		}
 
 		String sortByStr = request.getParameter(ServiceConstant.PARA_SORT_BY);
 		if (!StringUtil.isEmpty(sortByStr)){
