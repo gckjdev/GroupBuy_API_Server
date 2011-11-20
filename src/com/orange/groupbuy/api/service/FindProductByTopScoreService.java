@@ -110,12 +110,13 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 				return;
 			
 			for (Product p : productList){
-				log.info("product id="+p.getId()+
+				log.debug("product id="+p.getId()+
 						", top score="+p.getTopScore()+
 						", title="+p.getTitle()+
 						", bought="+p.getBought()+
 						", startDate="+p.getStartDateString());
 			}
+			log.info("<FindProductByTopScoreService> " + productList.size() + " products found");
 			resultData = CommonServiceUtils.productListToJSONArray(productList);	
 			
 		} else {

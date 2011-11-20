@@ -104,7 +104,7 @@ public class FindProductService extends CommonGroupBuyService {
 		
 		String categoryStr = request.getParameter(ServiceConstant.PARA_CATEGORIES);
 		categoryList = UrlUtil.parserUrlIntArray(categoryStr);
-		if (categoryList.size() == 1){
+		if (categoryList != null && categoryList.size() == 1){
 			int category = categoryList.get(0).intValue();
 			
 			// set Taobao Miaosha and Zhekou range
