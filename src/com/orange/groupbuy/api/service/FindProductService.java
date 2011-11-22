@@ -36,6 +36,7 @@ public class FindProductService extends CommonGroupBuyService {
 	int maxCategory = -1;
 
 	boolean gpsQuery = false;						// internal usage
+	int productType = DBConstants.UNDEFINE;	// optional
 	
 	
 	
@@ -55,6 +56,7 @@ public class FindProductService extends CommonGroupBuyService {
 		DBCursor cursor = ProductManager.getProductCursor(mongoClient, city, 
 				categoryList,minCategory, maxCategory, 				
 				todayOnly, gpsQuery, latitude, longitude, maxDistance, 
+				productType,
 				sortBy, startOffset, maxCount);
 		if (reCountStatus > 0) {
 			int reCnt = ProductManager.getCursorCount(cursor);
@@ -118,6 +120,11 @@ public class FindProductService extends CommonGroupBuyService {
 				minCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MIN;
 				maxCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MAX;
 			}
+		}
+		
+		String productTypeStr = request.getParameter(ServiceConstant.PARA_PRODUCT_TYPE);
+		if (!StringUtil.isEmpty(productTypeStr)){
+			productType = Integer.parseInt(productTypeStr);
 		}
 
 		String sortByStr = request.getParameter(ServiceConstant.PARA_SORT_BY);

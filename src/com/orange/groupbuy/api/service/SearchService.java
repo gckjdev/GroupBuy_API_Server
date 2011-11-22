@@ -38,7 +38,8 @@ public class SearchService extends CommonGroupBuyService {
 	boolean hasLocation = false;					// internal usage
 	Double radius;									// optional
 	int reCountStatus = 0;                          // optional
-		
+	int productType = DBConstants.C_PRODUCT_TYPE_TUANGOU;	// optional
+
 	@Override
 	public String toString() {
 		return "SearchService [deviceId=" + deviceId + ", appId=" + appId
@@ -138,6 +139,11 @@ public class SearchService extends CommonGroupBuyService {
 		if (!StringUtil.isEmpty(startOffsetStr)){
 			startOffset = Integer.parseInt(startOffsetStr);
 		}		
+
+		String productTypeStr = request.getParameter(ServiceConstant.PARA_PRODUCT_TYPE);
+		if (!StringUtil.isEmpty(productTypeStr)){
+			productType = Integer.parseInt(productTypeStr);
+		}
 
 		String maxCountStr = request.getParameter(ServiceConstant.PARA_MAX_COUNT);
 		if (!StringUtil.isEmpty(maxCountStr)){

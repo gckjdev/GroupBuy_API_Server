@@ -13,6 +13,7 @@ import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ErrorCode;
 import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.manager.CategoryManager;
 import com.orange.groupbuy.manager.ProductManager;
 
 public class FindProductByTopScoreService extends CommonGroupBuyService {
@@ -21,12 +22,13 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	String city;
 	int maxCount = 25;			
 	int startOffset = 0;
-	int startPrice = -100;
+	int startPrice = -100000;
 	int endPrice = 99999999;
 	int category = -1;
 	int minCategory = -1;
 	int maxCategory = -1;
 	int reCountStatus = 0;                          // optional
+	int productType = DBConstants.UNDEFINE;	// optional
 	
 	
 	@Override
@@ -71,23 +73,19 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 		if (!StringUtil.isEmpty(categoryStr)){
 			category = Integer.parseInt(categoryStr);
 
-			// set Taobao Miaosha and Zhekou range
-			if (category == DBConstants.C_CATEGORY_TAOBAO_MIAOSHA){
-				category = -1;
-				minCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MIN;
-				maxCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MAX;
-			}
-			else if (category == DBConstants.C_CATEGORY_TAOBAO_ZHEKOU){
-				category = -1;
-				minCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MIN;
-				maxCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MAX;
-			}
+			minCategory = CategoryManager.getMinCategory(category);
+			maxCategory = CategoryManager.getMaxCategory(category);			
 		}			
 		
 		String returnCountStr = request.getParameter(ServiceConstant.PARA_RETURN_COUNT); 
 		if (!StringUtil.isEmpty(returnCountStr)){
 			reCountStatus = Integer.parseInt(returnCountStr);
 		}				
+		
+		String productTypeStr = request.getParameter(ServiceConstant.PARA_PRODUCT_TYPE);
+		if (!StringUtil.isEmpty(productTypeStr)){
+			productType = Integer.parseInt(productTypeStr);
+		}
 		
 		return true;
 	}
@@ -101,7 +99,7 @@ public class FindProductByTopScoreService extends CommonGroupBuyService {
 	@Override
 	public void handleData() {				
 		DBCursor cursor = ProductManager.getTopScoreProductCursor(mongoClient, city, 
-				category, startOffset, maxCount, startPrice, endPrice, minCategory, maxCategory);
+				category, startOffset, maxCount, startPrice, endPrice, minCategory, maxCategory, productType);
 		if (reCountStatus == 0) {
 
 			List<Product> productList = ProductManager.getProduct(cursor);

@@ -25,6 +25,7 @@ public class GetAllCategoryService extends CommonGroupBuyService {
 	String city;
 	List<String> categoryList;
 	int categoryType = DBConstants.UNDEFINE;
+	int productType = DBConstants.C_PRODUCT_TYPE_TUANGOU;	// optional
 	
 	
 	
