@@ -36,7 +36,7 @@ public class FindProductService extends CommonGroupBuyService {
 	int maxCategory = -1;
 
 	boolean gpsQuery = false;						// internal usage
-	int productType = DBConstants.UNDEFINE;	// optional
+	int productType = DBConstants.UNDEFINE;			// optional
 	
 	
 	
