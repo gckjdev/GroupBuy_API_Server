@@ -10,6 +10,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.ServiceConstant;
+import com.orange.groupbuy.dao.Ad;
 import com.orange.groupbuy.dao.App;
 import com.orange.groupbuy.dao.Category;
 import com.orange.groupbuy.dao.Product;
@@ -252,5 +253,23 @@ public class CommonServiceUtils {
             jsonArray.add(object);
         }
         return jsonArray;
+	}
+
+	public static JSONArray adListToJSONArray(List<Ad> list) {
+		if (list == null)
+			return null;
+
+		JSONArray jsonArray = new JSONArray();
+		for(Ad ad : list){
+			JSONObject object = new JSONObject();
+			safePut(object, ServiceConstant.PARA_AD_ID, ad.getAdId());
+			safePut(object, ServiceConstant.PARA_AD_TEXT, ad.getAdText());
+			safePut(object, ServiceConstant.PARA_AD_IMAGE, ad.getAdImage());
+			safePut(object, ServiceConstant.PARA_AD_LINK, ad.getAdLink());
+			jsonArray.add(object);
+			
+		}
+						
+		return jsonArray;
 	}
 }
