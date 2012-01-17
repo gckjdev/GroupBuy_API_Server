@@ -1,5 +1,8 @@
 package download;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.orange.common.utils.StringUtil;
@@ -57,6 +60,13 @@ public class ReportDownloadService extends CommonGroupBuyService {
 		String fileSizeStr = request.getParameter(ServiceConstant.PARA_FILE_SIZE);
 		siteURL = request.getParameter(ServiceConstant.PARA_SITE_URL);
 		siteName = request.getParameter(ServiceConstant.PARA_SITE_NAME);
+		
+		try {
+			fileURL = URLDecoder.decode(fileURL, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			log.error("<ReportDownloadService> but catch exception when decoding fileURL = "+e.toString(), e);
+			return false;
+		}
 		
 		fileSize = Integer.parseInt(fileSizeStr);
 		

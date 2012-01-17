@@ -6,6 +6,7 @@ import com.orange.groupbuy.api.service.category.GetAllCategoryService;
 import com.orange.groupbuy.api.service.category.GetShoppingCategoryService;
 import com.orange.groupbuy.api.service.product.CompareProductService;
 import com.orange.groupbuy.api.service.product.SegmentService;
+import com.orange.groupbuy.api.service.spam.ReportSpamMessage;
 import com.orange.groupbuy.api.service.user.AddUserShoppingItemService;
 import com.orange.groupbuy.api.service.user.BindUserService;
 import com.orange.groupbuy.api.service.user.CountShoppingItemProductsByUser;
@@ -133,6 +134,9 @@ public class GroupBuyServiceFactory extends CommonServiceFactory {
 		}
 		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_FINDTOPDOWNLOADS)){
 			return new FindTopDownloadItemService();
+		}
+		else if (method.equalsIgnoreCase(ServiceConstant.METHOD_REPORT_SPAM_NUMBER)){
+			return new ReportSpamMessage();
 		}
 		else
 			return null;

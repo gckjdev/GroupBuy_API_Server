@@ -34,20 +34,24 @@ public class FindProductService extends CommonGroupBuyService {
 	int reCountStatus = 0;                          // optional
 	int minCategory = -1;
 	int maxCategory = -1;
+	String siteId = null;							// optional
 
 	boolean gpsQuery = false;						// internal usage
 	int productType = DBConstants.UNDEFINE;			// optional
 	
 	
 	
-	@Override 
+	@Override
 	public String toString() {
 		return "FindProductService [appId=" + appId + ", categoryList="
 				+ categoryList + ", city=" + city + ", gpsQuery=" + gpsQuery
 				+ ", latitude=" + latitude + ", longitude=" + longitude
-				+ ", maxCount=" + maxCount + ", maxDistance=" + maxDistance
+				+ ", maxCategory=" + maxCategory + ", maxCount=" + maxCount
+				+ ", maxDistance=" + maxDistance + ", minCategory="
+				+ minCategory + ", productType=" + productType
+				+ ", reCountStatus=" + reCountStatus + ", siteId=" + siteId
 				+ ", sortBy=" + sortBy + ", startOffset=" + startOffset
-				+ ", todayOnly=" + todayOnly + ", returnCount=" + reCountStatus + "]";
+				+ ", todayOnly=" + todayOnly + "]";
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class FindProductService extends CommonGroupBuyService {
 		DBCursor cursor = ProductManager.getProductCursor(mongoClient, city, 
 				categoryList,minCategory, maxCategory, 				
 				todayOnly, gpsQuery, latitude, longitude, maxDistance, 
-				productType,
+				productType, siteId,
 				sortBy, startOffset, maxCount);
 		if (reCountStatus > 0) {
 			int reCnt = ProductManager.getCursorCount(cursor);
@@ -87,6 +91,8 @@ public class FindProductService extends CommonGroupBuyService {
 		String latitudeStr = request.getParameter(ServiceConstant.PARA_LATITUDE);
 		String longitudeStr = request.getParameter(ServiceConstant.PARA_LONGITUDE);
 		String maxDistanceStr = request.getParameter(ServiceConstant.PARA_MAX_DISTANCE);
+		
+		siteId = request.getParameter(ServiceConstant.PARA_SITE_ID);
 		
 		if (!StringUtil.isEmpty(latitudeStr) && !StringUtil.isEmpty(longitudeStr) && !StringUtil.isEmpty(maxDistanceStr)){
 			gpsQuery = true;
